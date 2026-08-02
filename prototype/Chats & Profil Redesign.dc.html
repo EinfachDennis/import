@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+body{margin:0;background:#0a0810;font-family:Inter,system-ui,sans-serif}
+a{color:#caa46a}a:hover{color:#e6cf96}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(255,255,255,.07);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px JetBrains Mono,ui-monospace,monospace;padding:3px 7px;background:#caa46a;color:#1a1206;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Inter,sans-serif;color:#f5eee6}
+.dv-opts{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px JetBrains Mono,ui-monospace,monospace;padding:3px 7px;background:rgba(202,164,106,.18);color:#e6cf96;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Inter,sans-serif;color:rgba(245,238,230,.55);max-width:390px}
+.dv-card{background:#0d0912;border:1px solid rgba(157,107,240,.28);border-radius:34px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden}
+.dv-opt:target .dv-oid{background:#caa46a;color:#1a1206}
+.dv-next{margin:22px 0 0;font:12px/1.5 Inter,sans-serif;color:rgba(245,238,230,.45)}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes slideRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@keyframes sheetUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:none}}
+@keyframes overlayIn{from{opacity:0;transform:translateX(60px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes expandDown{from{opacity:0;max-height:0;transform:translateY(-6px)}to{opacity:1;max-height:220px;transform:none}}
+@keyframes emberRise{0%{transform:translateY(0);opacity:0}10%{opacity:.85}55%{transform:translateY(-46vh) translateX(14px);opacity:.5}100%{transform:translateY(-90vh) translateX(-10px);opacity:0}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 1px rgba(202,164,106,.35),0 0 26px -4px rgba(124,77,196,.7)}50%{box-shadow:0 0 0 1px rgba(202,164,106,.6),0 0 44px -2px rgba(124,77,196,1)}}
+@keyframes barGrow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+@keyframes popOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.86)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes typing{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+</style></helmet>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Zusammengebaut: <a class="dv-oid" href="#1b">1b</a> + <a class="dv-oid" href="#1f">1f</a> — plus 3 Varianten für „Neuer Chat"</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Die App — Nav schaltet zwischen Chats und Profil, „＋" öffnet das gewählte Menü (Standard: <a class="dv-oid" href="#2b">2b</a>)</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(124,77,196,.22),transparent 65%),#0d0912"></div>
+
+  <sc-if value="{{ isChats }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto">
+    <div style="position:sticky;top:0;z-index:4;background:rgba(13,9,18,.97);border-bottom:1px solid rgba(202,164,106,.14);padding:14px 16px 10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="font:700 20px/1 Cinzel,serif;letter-spacing:.05em;flex:1">CHATS</div>
+        <select onChange="{{ onSort }}" style="background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.28);color:#cdbede;border-radius:11px;padding:7px 9px;font:500 11px Inter,sans-serif">
+          <option value="recent">Zuletzt</option><option value="cost">Kosten</option><option value="tokens">Tokens</option>
+        </select>
+        <button onClick="{{ openSheet }}" style="width:34px;height:34px;border-radius:12px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:17px;cursor:pointer;box-shadow:0 8px 20px -8px rgba(124,77,196,.9)" style-active="transform:scale(.9)">＋</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:13px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22);margin-bottom:9px">
+        <span style="color:#8f7fa3;font-size:12px">⌕</span><span style="font-size:12.5px;color:#8f7fa3">In Chats suchen …</span>
+      </div>
+      <div style="display:flex;gap:6px;overflow:auto">
+        <sc-for list="{{ filters2 }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.onClick }}" style="flex:none;padding:6px 11px;border-radius:9px;font:600 11px Inter,sans-serif;cursor:pointer;transition:all .25s ease;background:{{ f.bg }};color:{{ f.color }};border:1px solid {{ f.bc }}">{{ f.label }}</button></sc-for>
+      </div>
+    </div>
+    <div style="padding:10px 12px 16px;display:flex;flex-direction:column;gap:7px">
+      <div style="font:500 9.5px JetBrains Mono,monospace;letter-spacing:.14em;color:#8f7fa3;padding:4px 6px;text-align:center">≪ SWIPE LINKS LÖSCHEN | SWIPE RECHTS ANHEFTEN ≫</div>
+      <sc-for list="{{ list2 }}" as="c" hint-placeholder-count="6">
+      <div style="position:relative;border-radius:18px;overflow:hidden;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ c.delay }}">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(90deg,rgba(202,164,106,.22),rgba(239,77,99,.22));font-size:15px"><span>📌</span><span>🗑</span></div>
+        <div onPointerDown="{{ c.onSwipe }}" onClick="{{ c.onTap }}" style="position:relative;display:flex;gap:11px;align-items:stretch;padding:0 13px 0 0;background:rgba(24,17,28,.96);border:1px solid {{ c.border }};border-radius:18px;cursor:pointer;touch-action:pan-y;overflow:hidden">
+          <div style="position:relative;width:66px;min-width:66px;background:{{ c.bg }}">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 8px,transparent 8px 18px)"></div>
+            <div style="position:absolute;bottom:5px;left:6px;font:500 7px JetBrains Mono,monospace;letter-spacing:.12em;color:rgba(255,255,255,.5)">BILD</div>
+            <sc-if value="{{ c.unread }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;left:6px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#ef4d63;color:#fff;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both">{{ c.unread }}</span></sc-if>
+          </div>
+          <div style="flex:1;min-width:0;padding:11px 0">
+            <div style="display:flex;align-items:center;gap:6px">
+              <sc-if value="{{ c.pinned }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px">📌</span></sc-if>
+              <span style="font:600 14px Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+              <sc-if value="{{ c.muted }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;opacity:.6">🔇</span></sc-if>
+            </div>
+            <div style="font-size:11.8px;line-height:1.45;color:#8f7fa3;margin-top:2px;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:{{ c.clamp }}">{{ c.preview }}</div>
+            <sc-if value="{{ c.turn }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:5px;font:700 9px Inter,sans-serif;letter-spacing:.07em;padding:2px 7px;border-radius:999px;background:rgba(202,164,106,.18);border:1px solid rgba(202,164,106,.5);color:#e6cf96">DU BIST AM ZUG</span></sc-if>
+          </div>
+          <div style="text-align:right;flex:none;display:flex;flex-direction:column;gap:5px;align-items:flex-end;justify-content:center;padding:11px 0">
+            <span style="font-size:10px;color:#8f7fa3">{{ c.time }}</span>
+            <span style="font:600 9.5px JetBrains Mono,monospace;padding:2px 7px;border-radius:9px;background:rgba(157,107,240,.16);color:#b48af0">{{ c.tokens }}</span>
+            <span style="font:600 9.5px JetBrains Mono,monospace;color:#caa46a">{{ c.cost }}</span>
+            <span style="font:500 9px JetBrains Mono,monospace;color:#8f7fa3">{{ c.msgLabel }}</span>
+          </div>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0 0 74px 0;display:flex;flex-direction:column;animation:slideRight .35s cubic-bezier(.22,.9,.3,1) both">
+    <div style="padding:16px 16px 0">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:56px;height:56px;border-radius:19px;background:linear-gradient(135deg,#b48af0,#6425b0);animation:glowPulse 3.6s ease-in-out infinite"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font:700 18px Cinzel,serif">{{ user.name }}</div>
+          <div style="font-size:10.5px;color:#8f7fa3">{{ user.email }}</div>
+        </div>
+        <div style="text-align:right"><div style="font-size:9px;letter-spacing:.12em;color:#caa46a">GUTHABEN</div><div style="font:700 17px Cinzel,serif;color:#f2dfae">{{ cost.credit }}</div></div>
+      </div>
+      <div style="position:relative;display:flex;gap:2px;margin-top:14px;padding:4px;border-radius:15px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22)">
+        <div style="position:absolute;top:4px;bottom:4px;border-radius:12px;background:linear-gradient(135deg,#b48af0,#6425b0);transition:left .42s cubic-bezier(.34,1.4,.5,1);width:{{ tab2W }};left:{{ tab2Left }}"></div>
+        <sc-for list="{{ tabs2 }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.onClick }}" style="position:relative;flex:1;padding:8px 1px;border:none;background:transparent;font:600 10px Inter,sans-serif;cursor:pointer;transition:color .3s ease;color:{{ t.color }}">{{ t.label }}</button></sc-for>
+      </div>
+    </div>
+    <div style="flex:1;overflow:auto;padding:14px 16px 20px">
+      <sc-if value="{{ show2Overview }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <sc-for list="{{ tileStats }}" as="t" hint-placeholder-count="4">
+          <div style="padding:13px;border-radius:18px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+            <div style="font-size:9.5px;color:#8f7fa3;letter-spacing:.06em">{{ t.label }}</div>
+            <div style="font:700 19px Cinzel,serif;color:{{ t.color }};margin-top:3px">{{ t.value }}</div>
+            <div style="font-size:9.5px;color:#8f7fa3">{{ t.sub }}</div>
+          </div>
+          </sc-for>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">🔐 Anmeldeoptionen</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ connects }}" as="c" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.04)">
+              <span style="font-size:14px">{{ c.icon }}</span><span style="flex:1;font-size:12px">{{ c.name }}</span>
+              <span style="font:600 10px Inter,sans-serif;padding:3px 8px;border-radius:9px;background:{{ c.bg }};color:{{ c.color }}">{{ c.state }}</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">🏅 Erfolge</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ badges }}" as="b" hint-placeholder-count="5"><span style="padding:6px 10px;border-radius:999px;font:600 10.5px Inter,sans-serif;background:{{ b.bg }};color:{{ b.color }};border:1px solid {{ b.bc }}">{{ b.label }}</span></sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button style="flex:1;padding:12px;border-radius:17px;border:1px solid rgba(157,107,240,.3);background:rgba(255,255,255,.045);color:#cdbede;font:600 12px Inter,sans-serif;cursor:pointer">⚙️ Einstellungen</button>
+          <button style="flex:1;padding:12px;border-radius:17px;border:1px solid rgba(239,77,99,.3);background:rgba(239,77,99,.08);color:#ef4d63;font:600 12px Inter,sans-serif;cursor:pointer">Abmelden</button>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ show2Costs }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(202,164,106,.16),rgba(124,77,196,.12));border:1px solid rgba(202,164,106,.32);display:flex;align-items:flex-end;justify-content:space-between">
+          <div><div style="font-size:9.5px;letter-spacing:.14em;color:#caa46a">GUTHABEN</div><div style="font:700 31px/1.1 Cinzel,serif;color:#f2dfae">{{ cost.credit }}</div></div>
+          <button style="padding:11px 16px;border-radius:14px;border:none;background:linear-gradient(135deg,#caa46a,#f2dfae);color:#241704;font:700 12px Inter,sans-serif;cursor:pointer">＋ Aufladen</button>
+        </div>
+        <div style="padding:15px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="display:flex;justify-content:space-between;margin-bottom:11px"><span style="font:600 12.5px Cinzel,serif">Verlauf · 14 Tage</span><span style="font:500 10px JetBrains Mono,monospace;color:#8f7fa3">Ø {{ cost.avg }}/Tag</span></div>
+          <div style="display:flex;align-items:flex-end;gap:5px;height:96px">
+            <sc-for list="{{ spark }}" as="b" hint-placeholder-count="14"><div style="flex:1;border-radius:4px 4px 2px 2px;transform-origin:bottom;animation:barGrow .7s cubic-bezier(.22,.9,.3,1) both;height:{{ b.h }};background:{{ b.bg }};animation-delay:{{ b.delay }}"></div></sc-for>
+          </div>
+          <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ costRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>{{ r.label }}</span><strong style="color:#caa46a;font-family:JetBrains Mono,monospace">{{ r.value }}</strong></div></sc-for>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>🔑 Beim Anbieter ausgegeben</span><strong style="color:#caa46a">{{ cost.providerSpent }}</strong></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>🔑 Guthaben beim Anbieter</span><strong style="color:#caa46a">{{ cost.providerLeft }}</strong></div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Teuerste Chats</div>
+          <sc-for list="{{ topChats }}" as="t" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+            <div style="width:28px;height:28px;border-radius:9px;background:{{ t.bg }}"></div>
+            <span style="flex:1;font-size:12px">{{ t.name }}</span>
+            <div style="width:70px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#caa46a,#b48af0);width:{{ t.pct }}"></div></div>
+            <span style="font:600 10.5px JetBrains Mono,monospace;color:#caa46a;width:46px;text-align:right">{{ t.cost }}</span>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ show2Friends }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(202,164,106,.14),rgba(124,77,196,.12));border:1px solid rgba(202,164,106,.36)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font:600 12.5px Cinzel,serif">Offene Anfragen</span><span style="min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#ef4d63;color:#fff;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center">2</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ friendRequests }}" as="f" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.05)">
+              <div style="width:32px;height:32px;border-radius:11px;background:{{ f.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ f.name }}</div><div style="font-size:10px;color:#8f7fa3">{{ f.sub }}</div></div>
+              <button style="width:32px;height:32px;border-radius:11px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:13px;cursor:pointer">✓</button>
+              <button style="width:32px;height:32px;border-radius:11px;border:1px solid rgba(239,77,99,.4);background:rgba(239,77,99,.08);color:#ef4d63;font-size:12px;cursor:pointer">✕</button>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Meine Freunde</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ friends }}" as="f" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="position:relative;width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ f.bg }}">
+                <sc-if value="{{ f.online }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;border-radius:50%;background:#8fd6a0;border:2px solid #18111c"></span></sc-if>
+              </div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ f.name }}</div><div style="font-size:10.5px;color:#8f7fa3">{{ f.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Charaktere der Freunde</div>
+          <div style="display:flex;gap:9px;overflow:auto">
+            <sc-for list="{{ friendChars }}" as="c" hint-placeholder-count="5">
+            <div style="flex:none;width:88px">
+              <div style="position:relative;width:88px;height:112px;border-radius:15px;overflow:hidden;background:{{ c.bg }}">
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 8px,transparent 8px 18px)"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(13,9,18,.9))"></div>
+                <div style="position:absolute;bottom:6px;left:7px;right:6px"><div style="font:600 11px Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</div><div style="font-size:8.5px;color:#caa46a">{{ c.owner }}</div></div>
+              </div>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Geteilte Chats</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ friendChats }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ c.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ c.name }}</div><div style="font-size:10.5px;color:#8f7fa3">{{ c.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Geteilte Medien</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <sc-for list="{{ sharedMedia }}" as="m" hint-placeholder-count="8">
+            <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:11px;overflow:hidden;cursor:pointer;background:{{ m.bg }}">
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 6px,transparent 6px 13px)"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:7px 2px 3px;text-align:center;background:linear-gradient(180deg,transparent,rgba(13,9,18,.85));font:600 7px Inter,sans-serif;color:rgba(245,238,230,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.owner }}</div>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif">Von mir geteilt</div>
+          <p style="font-size:10.5px;color:#8f7fa3;margin:4px 0 9px">Jederzeit änderbar — wer es sieht oder ob überhaupt.</p>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ sharedByMe }}" as="i" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:30px;height:30px;min-width:30px;border-radius:10px;background:{{ i.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12px Inter,sans-serif">{{ i.name }}</div><div style="font-size:10px;color:#8f7fa3">{{ i.sub }}</div></div>
+              <button style="padding:6px 10px;border-radius:11px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 10.5px Inter,sans-serif;cursor:pointer">Ändern</button>
+            </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07)">
+            <div style="font:600 11.5px Inter,sans-serif;margin-bottom:8px">Standard-Rechte für alle Freunde</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ permDefaults }}" as="p" hint-placeholder-count="4"><span style="padding:6px 11px;border-radius:999px;font:600 10.5px Inter,sans-serif;background:{{ p.bg }};color:{{ p.color }};border:1px solid {{ p.bc }}">{{ p.label }} · {{ p.state }}</span></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ show2Media }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <p style="font-size:11px;color:#8f7fa3;margin:0 0 10px">Tippen zum Vergrößern · gedrückt halten zum Teilen oder Herunterladen.</p>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:9px">
+          <sc-for list="{{ media }}" as="m" hint-placeholder-count="9">
+          <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:17px;overflow:hidden;cursor:pointer;animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;background:{{ m.bg }};animation-delay:{{ m.delay }}">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 9px,transparent 9px 19px)"></div>
+            <span style="position:absolute;bottom:7px;left:8px;font:500 8px JetBrains Mono,monospace;letter-spacing:.1em;color:rgba(255,255,255,.55)">{{ m.label }}</span>
+          </div>
+          </sc-for>
+        </div>
+        <button style="width:100%;margin-top:11px;padding:11px;border-radius:15px;border:1px solid rgba(157,107,240,.28);background:transparent;color:#cdbede;font:600 11.5px Inter,sans-serif;cursor:pointer">Mehr laden</button>
+      </div>
+      </sc-if>
+      <sc-if value="{{ show2Works }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <sc-for list="{{ ownSections }}" as="s" hint-placeholder-count="3">
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">{{ s.title }}</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ i.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ i.name }}</div><div style="font-size:10.5px;color:#8f7fa3">{{ i.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ open2 }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:8;background:#0d0912;animation:overlayIn .42s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column">
+    <div style="position:absolute;inset:0;background:{{ open2.bg }};opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,9,18,.86),rgba(13,9,18,.97))"></div>
+    <div style="position:relative;display:flex;align-items:center;gap:11px;padding:16px 16px 12px;border-bottom:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.8)">
+      <button onClick="{{ closeA }}" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font-size:17px;cursor:pointer">‹</button>
+      <div style="width:44px;height:44px;border-radius:15px;background:{{ open2.bg }};box-shadow:0 0 0 1px rgba(202,164,106,.3);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both"></div>
+      <div style="min-width:0">
+        <div style="font:600 16px Cinzel,serif">{{ open2.name }}</div>
+        <div style="font-size:10.5px;color:#8f7fa3">Gesamt · {{ open2.cost }} · {{ open2.tokens }} Tok</div>
+      </div>
+    </div>
+    <div style="position:relative;flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ demoMsgs }}" as="m" hint-placeholder-count="3">
+        <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;align-self:{{ m.align }};background:{{ m.bg }};border:1px solid {{ m.bc }};color:{{ m.color }};animation-delay:{{ m.delay }}">{{ m.text }}</div>
+      </sc-for>
+    </div>
+    <div style="position:relative;display:flex;gap:9px;align-items:center;padding:12px 14px 18px;border-top:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.9)">
+      <div style="flex:1;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.24);font-size:13px;color:#8f7fa3">Schreibe …</div>
+      <button style="width:42px;height:42px;border-radius:15px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:16px;cursor:pointer">↑</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetCards }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;z-index:9;background:rgba(6,4,9,.66);display:flex;align-items:flex-end;animation:popIn .25s ease both">
+    <div style="width:100%;padding:12px 14px 22px;border-radius:28px 28px 0 0;background:rgba(20,14,26,.99);border-top:1px solid rgba(202,164,106,.3);animation:sheetUp .42s cubic-bezier(.22,.9,.3,1) both">
+      <div style="width:42px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);margin:0 auto 14px"></div>
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.04em;margin:0 4px 12px">NEUER CHAT</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+        <button style="display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;border-radius:19px;background:rgba(255,255,255,.045);border:1px solid rgba(157,107,240,.24);color:#f5eee6;text-align:left;cursor:pointer;animation:cardIn .45s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ o.delay }}" style-active="transform:scale(.97)">
+          <span style="width:42px;height:42px;min-width:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:19px;background:{{ o.bg }}">{{ o.icon }}</span>
+          <span style="flex:1;min-width:0"><span style="display:block;font:600 13.5px Inter,sans-serif">{{ o.title }}</span><span style="display:block;font-size:10.5px;line-height:1.4;color:#8f7fa3">{{ o.sub }}</span></span>
+          <span style="color:#8f7fa3;font-size:16px">›</span>
+        </button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetRadial }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 88% 12%,rgba(124,77,196,.35),rgba(6,4,9,.82) 60%);animation:{{ overlayAnim }}">
+    <div style="position:absolute;top:14px;right:16px;transform:{{ helpArc }}">
+      <div onClick="{{ toggleHelp }}" style="display:flex;align-items:center;gap:10px;cursor:pointer;animation:{{ helpAnim }}">
+        <span style="padding:7px 12px;border-radius:999px;background:rgba(20,14,26,.95);border:1px solid rgba(90,150,255,.45);font:600 11.5px Inter,sans-serif;white-space:nowrap;color:#8fb6ff">{{ helpLabel }}</span>
+        <span style="width:40px;height:40px;min-width:40px;margin:6px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 19px Inter,sans-serif;color:#5a96ff;background:rgba(20,30,52,.95);border:2px solid #5a96ff;box-shadow:0 0 18px -4px rgba(90,150,255,.8)">?</span>
+      </div>
+    </div>
+    <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+    <div style="position:absolute;top:14px;right:16px;transform:{{ o.arc }}">
+      <div style="display:flex;align-items:center;gap:10px;animation:{{ o.anim }};animation-delay:{{ o.delay }}">
+        <span style="max-width:238px;padding:7px 12px;border-radius:16px;background:rgba(20,14,26,.95);border:1px solid rgba(202,164,106,.3);font:600 11.5px Inter,sans-serif;text-align:right">
+          {{ o.title }}
+          <sc-if value="{{ o.showHelp }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:400 10px/1.4 Inter,sans-serif;color:#8f7fa3;animation:fadeIn .3s ease both">{{ o.short }}</span></sc-if>
+        </span>
+        <span style="width:52px;height:52px;min-width:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 10px 26px -8px rgba(0,0,0,.9);background:{{ o.bg }}">{{ o.icon }}</span>
+      </div>
+    </div>
+    </sc-for>
+    <div style="position:absolute;left:0;right:0;bottom:96px;text-align:center;font:500 10.5px JetBrains Mono,monospace;letter-spacing:.12em;color:#8f7fa3">TIPPEN ZUM SCHLIESSEN</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetFull }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;box-sizing:border-box;z-index:9;background:#0c0810;padding:20px 16px;animation:overlayIn .4s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div style="font:700 22px Cinzel,serif;letter-spacing:.05em">NEUER CHAT</div>
+      <button onClick="{{ closeSheet }}" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font-size:14px;cursor:pointer">✕</button>
+    </div>
+    <p style="font-size:11.5px;color:#8f7fa3;margin:0 0 16px">Womit soll die Geschichte anfangen?</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+      <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+      <button style="position:relative;height:186px;border-radius:22px;overflow:hidden;border:1px solid rgba(202,164,106,.24);cursor:pointer;padding:0;text-align:left;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;background:{{ o.bg }};animation-delay:{{ o.delay }}" style-active="transform:scale(.97)">
+        <span style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 9px,transparent 9px 20px)"></span>
+        <span style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(13,9,18,.94))"></span>
+        <span style="position:absolute;top:12px;left:13px;font-size:26px">{{ o.icon }}</span>
+        <span style="position:absolute;left:13px;right:12px;bottom:12px;color:#f5eee6">
+          <span style="display:block;font:600 13.5px Cinzel,serif">{{ o.title }}</span>
+          <span style="display:block;margin-top:4px;font-size:10px;line-height:1.4;color:#cdbede">{{ o.sub }}</span>
+        </span>
+      </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ confirm2 }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:10;background:rgba(6,4,9,.72);display:flex;align-items:center;justify-content:center;padding:26px;animation:popIn .26s cubic-bezier(.22,.9,.3,1) both">
+    <div style="width:100%;padding:20px;border-radius:24px;background:rgba(24,17,28,.98);border:1px solid rgba(202,164,106,.32);animation:sheetUp .34s cubic-bezier(.22,.9,.3,1) both">
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.03em">{{ confirm2.title }}</div>
+      <p style="margin:9px 0 18px;font-size:12.5px;line-height:1.5;color:#cdbede">{{ confirm2.text }}</p>
+      <div style="display:flex;gap:9px">
+        <button onClick="{{ confirmCancel }}" style="flex:1;padding:12px;border-radius:15px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 12.5px Inter,sans-serif;cursor:pointer">Abbrechen</button>
+        <button onClick="{{ confirmOk }}" style="flex:1;padding:12px;border-radius:15px;border:none;font:700 12.5px Inter,sans-serif;cursor:pointer;background:{{ confirm2.okBg }};color:{{ confirm2.okColor }}">{{ confirm2.okLabel }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16);z-index:7">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div onClick="{{ goChats }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;cursor:pointer;color:{{ navChatColor }}"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div onClick="{{ goProfile }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;cursor:pointer;color:{{ navProfileColor }}"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>„＋" als Bottom-Sheet mit Karten — ruhig, lesbar, viel Platz für die Erklärtexte</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:520px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif;background:#0d0912">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(124,77,196,.22),transparent 65%)"></div>
+  <div style="position:absolute;inset:0;box-sizing:border-box;padding:12px 14px 22px;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(6,4,9,.5)">
+    <div style="box-sizing:border-box;width:100%;padding:12px 14px 22px;border-radius:28px;background:rgba(20,14,26,.99);border:1px solid rgba(202,164,106,.3)">
+      <div style="width:42px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);margin:0 auto 14px"></div>
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.04em;margin:0 4px 12px">NEUER CHAT</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:19px;background:rgba(255,255,255,.045);border:1px solid rgba(157,107,240,.24)">
+          <span style="width:42px;height:42px;min-width:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:19px;background:{{ o.bg }}">{{ o.icon }}</span>
+          <span style="flex:1;min-width:0"><span style="display:block;font:600 13.5px Inter,sans-serif">{{ o.title }}</span><span style="display:block;font-size:10.5px;line-height:1.4;color:#8f7fa3">{{ o.sub }}</span></span>
+          <span style="color:#8f7fa3;font-size:16px">›</span>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<button onClick="{{ useCards }}" style="margin-top:2px;padding:8px 12px;border-radius:11px;border:1px solid rgba(202,164,106,.35);background:rgba(202,164,106,.12);color:#e6cf96;font:600 11px Inter,sans-serif;cursor:pointer">In 2a testen</button>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>„＋" fächert auf — vier Ziele springen aus dem Button, einhändig erreichbar</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:520px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif;background:#0d0912">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(124,77,196,.4),rgba(6,4,9,.85) 60%)"></div>
+  <div onClick="{{ toggleHelp }}" style="position:absolute;top:34px;right:22px;display:flex;align-items:center;gap:10px;cursor:pointer;transform:{{ helpArc }}">
+    <span style="padding:7px 12px;border-radius:999px;background:rgba(20,14,26,.95);border:1px solid rgba(90,150,255,.45);font:600 11.5px Inter,sans-serif;white-space:nowrap;color:#8fb6ff">{{ helpLabel }}</span>
+    <span style="width:40px;height:40px;min-width:40px;margin:6px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 19px Inter,sans-serif;color:#5a96ff;background:rgba(20,30,52,.95);border:2px solid #5a96ff;box-shadow:0 0 18px -4px rgba(90,150,255,.8)">?</span>
+  </div>
+  <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+  <div style="position:absolute;top:34px;right:22px;display:flex;align-items:center;gap:10px;transform:{{ o.arc }}">
+    <span style="max-width:238px;padding:7px 12px;border-radius:16px;background:rgba(20,14,26,.95);border:1px solid rgba(202,164,106,.3);font:600 11.5px Inter,sans-serif;text-align:right">
+      {{ o.title }}
+      <sc-if value="{{ o.showHelp }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:3px;font:400 10px/1.4 Inter,sans-serif;color:#8f7fa3;animation:fadeIn .3s ease both">{{ o.short }}</span></sc-if>
+    </span>
+    <span style="width:52px;height:52px;min-width:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 10px 26px -8px rgba(0,0,0,.9);background:{{ o.bg }}">{{ o.icon }}</span>
+  </div>
+  </sc-for>
+  <div style="position:absolute;top:34px;right:22px;width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,#b48af0,#6425b0);display:flex;align-items:center;justify-content:center;font-size:24px;transform:rotate(45deg)">＋</div>
+</div>
+</div>
+<button onClick="{{ useRadial }}" style="margin-top:2px;padding:8px 12px;border-radius:11px;border:1px solid rgba(202,164,106,.35);background:rgba(202,164,106,.12);color:#e6cf96;font:600 11px Inter,sans-serif;cursor:pointer">In 2a testen</button>
+</div>
+
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>„＋" als Vollbild-Wähler — vier Bildkacheln, wirkt wie der Einstieg in eine Geschichte</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;box-sizing:border-box;width:390px;height:520px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif;background:#0c0810;padding:20px 16px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+    <div style="font:700 22px Cinzel,serif;letter-spacing:.05em">NEUER CHAT</div>
+    <div style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);display:flex;align-items:center;justify-content:center;color:#cdbede;font-size:14px">✕</div>
+  </div>
+  <p style="font-size:11.5px;color:#8f7fa3;margin:0 0 16px">Womit soll die Geschichte anfangen?</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+    <sc-for list="{{ newChatOpts }}" as="o" hint-placeholder-count="4">
+    <div style="position:relative;height:186px;border-radius:22px;overflow:hidden;border:1px solid rgba(202,164,106,.24);background:{{ o.bg }}">
+      <span style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 9px,transparent 9px 20px)"></span>
+      <span style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(13,9,18,.94))"></span>
+      <span style="position:absolute;top:12px;left:13px;font-size:26px">{{ o.icon }}</span>
+      <span style="position:absolute;left:13px;right:12px;bottom:12px">
+        <span style="display:block;font:600 13.5px Cinzel,serif">{{ o.title }}</span>
+        <span style="display:block;margin-top:4px;font-size:10px;line-height:1.4;color:#cdbede">{{ o.sub }}</span>
+      </span>
+    </div>
+    </sc-for>
+  </div>
+</div>
+</div>
+<button onClick="{{ useFull }}" style="margin-top:2px;padding:8px 12px;border-radius:11px;border:1px solid rgba(202,164,106,.35);background:rgba(202,164,106,.12);color:#e6cf96;font:600 11px Inter,sans-serif;cursor:pointer">In 2a testen</button>
+</div>
+
+</div>
+<p class="dv-next">Try next: „nimm <a class="dv-oid" href="#2c">2c</a> als Menü in <a class="dv-oid" href="#2a">2a</a>" · „<a class="dv-oid" href="#2d">2d</a> mit echten Charakterbildern" · „mach den Export für <a class="dv-oid" href="#2a">2a</a>"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Chats &amp; Profil — 3 Richtungen je Seite (alle Inhalte erhalten, nur neu geordnet)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Chats · „Bühne" — große Bildkarten, 3 Zeilen Vorschau, Antippen öffnet direkt den Chat, Filter-Tabs, Pins</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 8%,rgba(124,77,196,.24),transparent 60%),radial-gradient(ellipse 70% 50% at 85% 92%,rgba(202,164,106,.10),transparent 60%),radial-gradient(ellipse 100% 80% at 50% 50%,#150f20,#0d0912 70%)"></div>
+  <sc-for list="{{ embers }}" as="e" hint-placeholder-count="0"><span style="position:absolute;bottom:-4%;width:3px;height:3px;border-radius:50%;background:#caa46a;box-shadow:0 0 6px 1px rgba(202,164,106,.9);animation:emberRise linear infinite;left:{{ e.left }};animation-duration:{{ e.dur }};animation-delay:{{ e.delay }}"></span></sc-for>
+
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto;padding:0 0 20px">
+    <div style="position:sticky;top:0;z-index:4;padding:14px 18px 12px;background:linear-gradient(180deg,rgba(13,9,18,.97) 60%,rgba(13,9,18,0))">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="font:700 24px/1 Cinzel,serif;letter-spacing:.04em">CHATS</div>
+          <div style="font-size:11px;color:#8f7fa3">{{ chatsMeta }}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button style="width:38px;height:38px;border-radius:13px;border:1px solid rgba(202,164,106,.22);background:rgba(255,255,255,.05);color:#cdbede;font-size:15px;cursor:pointer" style-active="transform:scale(.92)">⌕</button>
+          <button style="width:38px;height:38px;border-radius:13px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:19px;font-weight:600;cursor:pointer;box-shadow:0 8px 22px -8px rgba(124,77,196,.9)" style-active="transform:scale(.92)">＋</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:7px;overflow:auto;padding-bottom:2px">
+        <sc-for list="{{ filtersA }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.onClick }}" style="flex:none;padding:7px 13px;border-radius:999px;font:600 11.5px Inter,sans-serif;cursor:pointer;transition:all .28s cubic-bezier(.34,1.56,.64,1);background:{{ f.bg }};color:{{ f.color }};border:1px solid {{ f.bc }}">{{ f.label }}</button></sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;padding:4px 16px 0">
+      <sc-for list="{{ listA }}" as="c" hint-placeholder-count="4">
+      <div onClick="{{ c.onTap }}" style="position:relative;border-radius:26px;overflow:hidden;border:1px solid {{ c.border }};cursor:pointer;animation:cardIn .6s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ c.delay }}" style-active="transform:scale(.985)">
+        <div style="position:absolute;inset:0;background:{{ c.bg }}"></div>
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.045) 0 10px,transparent 10px 22px)"></div>
+        <div style="position:absolute;top:12px;left:14px;font:500 8.5px JetBrains Mono,monospace;letter-spacing:.14em;color:rgba(255,255,255,.42)">CHARAKTERBILD</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,9,18,.1) 0%,rgba(13,9,18,.55) 45%,rgba(13,9,18,.93) 100%)"></div>
+        <div style="position:relative;padding:44px 16px 14px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px">
+            <div style="min-width:0">
+              <div style="display:flex;align-items:center;gap:7px">
+                <sc-if value="{{ c.pinned }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:#caa46a">📌</span></sc-if>
+                <div style="font:600 18px/1.15 Cinzel,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+                <span style="font:600 9.5px Inter,sans-serif;letter-spacing:.08em;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);color:#cdbede">{{ c.kindLabel }}</span>
+                <sc-if value="{{ c.turn }}" hint-placeholder-val="{{ false }}"><span style="font:700 9.5px Inter,sans-serif;letter-spacing:.06em;padding:3px 8px;border-radius:999px;background:rgba(202,164,106,.2);border:1px solid rgba(202,164,106,.55);color:#e6cf96;animation:glowPulse 2.6s ease-in-out infinite">DU BIST AM ZUG</span></sc-if>
+              </div>
+            </div>
+            <div style="text-align:right;flex:none">
+              <div style="font-size:10.5px;color:#8f7fa3">{{ c.time }}</div>
+              <sc-if value="{{ c.unread }}" hint-placeholder-val="{{ false }}"><div style="margin-top:5px;display:inline-flex;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#ef4d63;color:#fff;font:700 11px Inter,sans-serif;align-items:center;justify-content:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both">{{ c.unread }}</div></sc-if>
+            </div>
+          </div>
+          <div style="font-size:12.6px;line-height:1.5;color:#cdbede;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:{{ c.clamp }}">{{ c.preview }}</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font:600 10px JetBrains Mono,monospace;padding:3px 8px;border-radius:9px;background:rgba(157,107,240,.18);color:#b48af0">{{ c.tokens }} Tok</span>
+            <span style="font:600 10px JetBrains Mono,monospace;padding:3px 8px;border-radius:9px;background:rgba(202,164,106,.14);color:#caa46a">{{ c.cost }}</span>
+            <span style="margin-left:auto;font-size:10.5px;color:#8f7fa3">{{ c.expandHint }}</span>
+          </div>
+          <sc-if value="{{ c.expanded }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:flex-end;gap:7px;padding-top:2px">
+              <button onClick="{{ c.onPin }}" style="padding:10px 12px;border-radius:14px;border:1px solid rgba(202,164,106,.4);background:transparent;color:#e6cf96;font-size:13px;cursor:pointer">📌</button>
+              <button onClick="{{ c.onMute }}" style="padding:10px 12px;border-radius:14px;border:1px solid rgba(157,107,240,.4);background:transparent;color:#cdbede;font-size:13px;cursor:pointer">{{ c.muteIcon }}</button>
+              <button onClick="{{ c.onDelete }}" style="padding:10px 12px;border-radius:14px;border:1px solid rgba(239,77,99,.45);background:rgba(239,77,99,.1);color:#ef4d63;font-size:13px;cursor:pointer">🗑</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{ openA }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:8;background:#0d0912;animation:overlayIn .42s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column">
+    <div style="position:absolute;inset:0;background:{{ openA.bg }};opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,9,18,.86),rgba(13,9,18,.97))"></div>
+    <div style="position:relative;display:flex;align-items:center;gap:11px;padding:16px 16px 12px;border-bottom:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.8)">
+      <button onClick="{{ closeA }}" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font-size:17px;cursor:pointer">‹</button>
+      <div style="width:44px;height:44px;border-radius:15px;background:{{ openA.bg }};box-shadow:0 0 0 1px rgba(202,164,106,.3);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both"></div>
+      <div style="min-width:0">
+        <div style="font:600 16px Cinzel,serif">{{ openA.name }}</div>
+        <div style="font-size:10.5px;color:#8f7fa3">Gesamt · {{ openA.cost }} · {{ openA.tokens }} Tok</div>
+      </div>
+    </div>
+    <div style="position:relative;flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ demoMsgs }}" as="m" hint-placeholder-count="3">
+        <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;align-self:{{ m.align }};background:{{ m.bg }};border:1px solid {{ m.bc }};color:{{ m.color }};animation-delay:{{ m.delay }}">{{ m.text }}</div>
+      </sc-for>
+      <div style="align-self:flex-start;display:flex;gap:4px;padding:12px 16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22)">
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s infinite"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s .2s infinite"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s .4s infinite"></span>
+      </div>
+    </div>
+    <div style="position:relative;display:flex;gap:9px;align-items:center;padding:12px 14px 18px;border-top:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.9)">
+      <div style="flex:1;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.24);font-size:13px;color:#8f7fa3">Schreibe …</div>
+      <button style="width:42px;height:42px;border-radius:15px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:16px;cursor:pointer">↑</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmA }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:10;background:rgba(6,4,9,.72);display:flex;align-items:center;justify-content:center;padding:26px;animation:popIn .26s cubic-bezier(.22,.9,.3,1) both">
+    <div style="width:100%;padding:20px;border-radius:24px;background:rgba(24,17,28,.98);border:1px solid rgba(202,164,106,.32);box-shadow:0 24px 60px -18px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.22,.9,.3,1) both">
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.03em">{{ confirmA.title }}</div>
+      <p style="margin:9px 0 18px;font-size:12.5px;line-height:1.5;color:#cdbede">{{ confirmA.text }}</p>
+      <div style="display:flex;gap:9px">
+        <button onClick="{{ confirmCancel }}" style="flex:1;padding:12px;border-radius:15px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 12.5px Inter,sans-serif;cursor:pointer" style-active="transform:scale(.96)">Abbrechen</button>
+        <button onClick="{{ confirmOk }}" style="flex:1;padding:12px;border-radius:15px;border:none;font:700 12.5px Inter,sans-serif;cursor:pointer;background:{{ confirmA.okBg }};color:{{ confirmA.okColor }}" style-active="transform:scale(.96)">{{ confirmA.okLabel }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16);z-index:6">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Chats · „Werkbank" — kompakte Zeilen, Swipe (← löschen / → anheften), Sortierung, Ungelesen-Zähler</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(124,77,196,.22),transparent 65%),#0d0912"></div>
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto">
+    <div style="position:sticky;top:0;z-index:4;background:rgba(13,9,18,.97);border-bottom:1px solid rgba(202,164,106,.14);padding:14px 16px 10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="font:700 20px/1 Cinzel,serif;letter-spacing:.05em;flex:1">CHATS</div>
+        <select onChange="{{ onSort }}" style="background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.28);color:#cdbede;border-radius:11px;padding:7px 9px;font:500 11px Inter,sans-serif">
+          <option value="recent">Zuletzt</option><option value="cost">Kosten</option><option value="tokens">Tokens</option>
+        </select>
+        <button style="width:34px;height:34px;border-radius:12px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:17px;cursor:pointer">＋</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:13px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22);margin-bottom:9px">
+        <span style="color:#8f7fa3;font-size:12px">⌕</span><span style="font-size:12.5px;color:#8f7fa3">In Chats suchen …</span>
+      </div>
+      <div style="display:flex;gap:6px;overflow:auto">
+        <sc-for list="{{ filtersB }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.onClick }}" style="flex:none;padding:6px 11px;border-radius:9px;font:600 11px Inter,sans-serif;cursor:pointer;transition:all .25s ease;background:{{ f.bg }};color:{{ f.color }};border:1px solid {{ f.bc }}">{{ f.label }}</button></sc-for>
+      </div>
+    </div>
+
+    <div style="padding:10px 12px 16px;display:flex;flex-direction:column;gap:7px">
+      <div style="font:500 9.5px JetBrains Mono,monospace;letter-spacing:.14em;color:#8f7fa3;padding:4px 6px;text-align:center">≪ SWIPE LINKS LÖSCHEN | SWIPE RECHTS ANHEFTEN ≫</div>
+      <sc-for list="{{ listB }}" as="c" hint-placeholder-count="6">
+      <div style="position:relative;border-radius:18px;overflow:hidden;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ c.delay }}">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(90deg,rgba(202,164,106,.22),rgba(239,77,99,.22));font-size:15px"><span>📌</span><span>🗑</span></div>
+        <div onPointerDown="{{ c.onSwipe }}" onClick="{{ c.onTap }}" style="position:relative;display:flex;gap:11px;align-items:stretch;padding:0 13px 0 0;background:rgba(24,17,28,.96);border:1px solid {{ c.border }};border-radius:18px;cursor:pointer;touch-action:pan-y;overflow:hidden">
+          <div style="position:relative;width:66px;min-width:66px;background:{{ c.bg }}">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 8px,transparent 8px 18px)"></div>
+            <div style="position:absolute;bottom:5px;left:6px;font:500 7px JetBrains Mono,monospace;letter-spacing:.12em;color:rgba(255,255,255,.5)">BILD</div>
+            <sc-if value="{{ c.unread }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;left:6px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#ef4d63;color:#fff;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both">{{ c.unread }}</span></sc-if>
+          </div>
+          <div style="flex:1;min-width:0;padding:11px 0">
+            <div style="display:flex;align-items:center;gap:6px">
+              <sc-if value="{{ c.pinned }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px">📌</span></sc-if>
+              <span style="font:600 14px Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+              <sc-if value="{{ c.muted }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;opacity:.6">🔇</span></sc-if>
+            </div>
+            <div style="font-size:11.8px;line-height:1.45;color:#8f7fa3;margin-top:2px;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:{{ c.clamp }}">{{ c.preview }}</div>
+            <sc-if value="{{ c.turn }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:5px;font:700 9px Inter,sans-serif;letter-spacing:.07em;padding:2px 7px;border-radius:999px;background:rgba(202,164,106,.18);border:1px solid rgba(202,164,106,.5);color:#e6cf96">DU BIST AM ZUG</span></sc-if>
+          </div>
+          <div style="text-align:right;flex:none;display:flex;flex-direction:column;gap:5px;align-items:flex-end;justify-content:center;padding:11px 0">
+            <span style="font-size:10px;color:#8f7fa3">{{ c.time }}</span>
+            <span style="font:600 9.5px JetBrains Mono,monospace;padding:2px 7px;border-radius:9px;background:rgba(157,107,240,.16);color:#b48af0">{{ c.tokens }}</span>
+            <span style="font:600 9.5px JetBrains Mono,monospace;color:#caa46a">{{ c.cost }}</span>
+            <span style="font:500 9px JetBrains Mono,monospace;color:#8f7fa3">{{ c.msgLabel }}</span>
+          </div>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+  <sc-if value="{{ openB }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:8;background:#0d0912;animation:overlayIn .42s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column">
+    <div style="position:absolute;inset:0;background:{{ openB.bg }};opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,9,18,.86),rgba(13,9,18,.97))"></div>
+    <div style="position:relative;display:flex;align-items:center;gap:11px;padding:16px 16px 12px;border-bottom:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.8)">
+      <button onClick="{{ closeA }}" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font-size:17px;cursor:pointer">‹</button>
+      <div style="width:44px;height:44px;border-radius:15px;background:{{ openB.bg }};box-shadow:0 0 0 1px rgba(202,164,106,.3);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both"></div>
+      <div style="min-width:0">
+        <div style="font:600 16px Cinzel,serif">{{ openB.name }}</div>
+        <div style="font-size:10.5px;color:#8f7fa3">Gesamt · {{ openB.cost }} · {{ openB.tokens }} Tok</div>
+      </div>
+    </div>
+    <div style="position:relative;flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ demoMsgs }}" as="m" hint-placeholder-count="3">
+        <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;align-self:{{ m.align }};background:{{ m.bg }};border:1px solid {{ m.bc }};color:{{ m.color }};animation-delay:{{ m.delay }}">{{ m.text }}</div>
+      </sc-for>
+      <div style="align-self:flex-start;display:flex;gap:4px;padding:12px 16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22)">
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s infinite"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s .2s infinite"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#b48af0;animation:typing 1.2s .4s infinite"></span>
+      </div>
+    </div>
+    <div style="position:relative;display:flex;gap:9px;align-items:center;padding:12px 14px 18px;border-top:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.9)">
+      <div style="flex:1;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.24);font-size:13px;color:#8f7fa3">Schreibe …</div>
+      <button style="width:42px;height:42px;border-radius:15px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:16px;cursor:pointer">↑</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmB }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:10;background:rgba(6,4,9,.72);display:flex;align-items:center;justify-content:center;padding:26px;animation:popIn .26s cubic-bezier(.22,.9,.3,1) both">
+    <div style="width:100%;padding:20px;border-radius:24px;background:rgba(24,17,28,.98);border:1px solid rgba(202,164,106,.32);box-shadow:0 24px 60px -18px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.22,.9,.3,1) both">
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.03em">{{ confirmB.title }}</div>
+      <p style="margin:9px 0 18px;font-size:12.5px;line-height:1.5;color:#cdbede">{{ confirmB.text }}</p>
+      <div style="display:flex;gap:9px">
+        <button onClick="{{ confirmCancel }}" style="flex:1;padding:12px;border-radius:15px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 12.5px Inter,sans-serif;cursor:pointer" style-active="transform:scale(.96)">Abbrechen</button>
+        <button onClick="{{ confirmOk }}" style="flex:1;padding:12px;border-radius:15px;border:none;font:700 12.5px Inter,sans-serif;cursor:pointer;background:{{ confirmB.okBg }};color:{{ confirmB.okColor }}" style-active="transform:scale(.96)">{{ confirmB.okLabel }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Chats · „Bibliothek" — Sammlungen/Ordner oben, darunter Story-Karten mit Fortschritt</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 40% at 15% 5%,rgba(202,164,106,.14),transparent 60%),radial-gradient(ellipse 80% 60% at 90% 80%,rgba(124,77,196,.22),transparent 60%),#0c0810"></div>
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto;padding-bottom:18px">
+    <div style="padding:16px 18px 6px">
+      <div style="font:700 22px/1 Cinzel,serif;letter-spacing:.05em">SAMMLUNGEN</div>
+      <div style="font-size:11px;color:#8f7fa3;margin-top:3px">{{ chatsMeta }}</div>
+    </div>
+    <div style="display:flex;gap:11px;overflow:auto;padding:12px 18px 14px">
+      <sc-for list="{{ folders }}" as="f" hint-placeholder-count="4">
+      <div onClick="{{ f.onClick }}" style="flex:none;width:118px;height:96px;border-radius:20px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1);animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;background:{{ f.bg }};border:1px solid {{ f.bc }};animation-delay:{{ f.delay }}" style-active="transform:scale(.95)">
+        <span style="font-size:19px">{{ f.icon }}</span>
+        <div>
+          <div style="font:600 12.5px Inter,sans-serif;color:{{ f.color }}">{{ f.name }}</div>
+          <div style="font:500 10px JetBrains Mono,monospace;color:#8f7fa3">{{ f.count }}</div>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px;padding:2px 16px 0">
+      <sc-for list="{{ listC }}" as="c" hint-placeholder-count="4">
+      <div onClick="{{ c.onTap }}" style="position:relative;display:flex;gap:0;border-radius:22px;overflow:hidden;border:1px solid {{ c.border }};background:rgba(24,17,28,.9);cursor:pointer;animation:cardIn .55s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ c.delay }}" style-active="transform:scale(.985)">
+        <div style="position:relative;width:66px;min-width:66px;background:{{ c.bg }}">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 8px,transparent 8px 18px)"></div>
+          <div style="position:absolute;bottom:7px;left:7px;font:500 7.5px JetBrains Mono,monospace;letter-spacing:.12em;color:rgba(255,255,255,.5)">BILD</div>
+          <sc-if value="{{ c.unread }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;left:8px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#ef4d63;color:#fff;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center">{{ c.unread }}</span></sc-if>
+        </div>
+        <div style="flex:1;min-width:0;padding:12px 13px;display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+            <span style="font:600 15px Cinzel,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+            <span style="font-size:10px;color:#8f7fa3;flex:none">{{ c.time }}</span>
+          </div>
+          <div style="font-size:12px;line-height:1.45;color:#cdbede;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:{{ c.clamp }}">{{ c.preview }}</div>
+          <div style="display:flex;align-items:center;gap:7px">
+            <div style="flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.09);overflow:hidden">
+              <div style="height:100%;border-radius:2px;background:linear-gradient(90deg,#caa46a,#b48af0);transition:width .8s cubic-bezier(.22,.9,.3,1);width:{{ c.ctxPct }}"></div>
+            </div>
+            <span style="font:500 9.5px JetBrains Mono,monospace;color:#8f7fa3">{{ c.tokens }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font:600 9px Inter,sans-serif;letter-spacing:.07em;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#cdbede">{{ c.kindLabel }}</span>
+            <sc-if value="{{ c.turn }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;color:#e6cf96;font-weight:700">● am Zug</span></sc-if>
+            <span style="margin-left:auto;font:600 9.5px JetBrains Mono,monospace;color:#caa46a">{{ c.cost }}</span>
+          </div>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+  <sc-if value="{{ openC }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:8;background:#0d0912;animation:overlayIn .42s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column">
+    <div style="position:absolute;inset:0;background:{{ openC.bg }};opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,9,18,.86),rgba(13,9,18,.97))"></div>
+    <div style="position:relative;display:flex;align-items:center;gap:11px;padding:16px 16px 12px;border-bottom:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.8)">
+      <button onClick="{{ closeA }}" style="width:34px;height:34px;border-radius:12px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font-size:17px;cursor:pointer">‹</button>
+      <div style="width:44px;height:44px;border-radius:15px;background:{{ openC.bg }};box-shadow:0 0 0 1px rgba(202,164,106,.3);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both"></div>
+      <div style="min-width:0">
+        <div style="font:600 16px Cinzel,serif">{{ openC.name }}</div>
+        <div style="font-size:10.5px;color:#8f7fa3">Gesamt · {{ openC.cost }} · {{ openC.tokens }} Tok</div>
+      </div>
+    </div>
+    <div style="position:relative;flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ demoMsgs }}" as="m" hint-placeholder-count="3">
+        <div style="max-width:82%;padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.55;animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;align-self:{{ m.align }};background:{{ m.bg }};border:1px solid {{ m.bc }};color:{{ m.color }};animation-delay:{{ m.delay }}">{{ m.text }}</div>
+      </sc-for>
+    </div>
+    <div style="position:relative;display:flex;gap:9px;align-items:center;padding:12px 14px 18px;border-top:1px solid rgba(202,164,106,.16);background:rgba(24,17,28,.9)">
+      <div style="flex:1;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.24);font-size:13px;color:#8f7fa3">Schreibe …</div>
+      <button style="width:42px;height:42px;border-radius:15px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:16px;cursor:pointer">↑</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmC }}" hint-placeholder-val="{{ false }}">
+  <div style="position:absolute;inset:0;z-index:10;background:rgba(6,4,9,.72);display:flex;align-items:center;justify-content:center;padding:26px;animation:popIn .26s cubic-bezier(.22,.9,.3,1) both">
+    <div style="width:100%;padding:20px;border-radius:24px;background:rgba(24,17,28,.98);border:1px solid rgba(202,164,106,.32);box-shadow:0 24px 60px -18px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.22,.9,.3,1) both">
+      <div style="font:700 17px Cinzel,serif;letter-spacing:.03em">{{ confirmC.title }}</div>
+      <p style="margin:9px 0 18px;font-size:12.5px;line-height:1.5;color:#cdbede">{{ confirmC.text }}</p>
+      <div style="display:flex;gap:9px">
+        <button onClick="{{ confirmCancel }}" style="flex:1;padding:12px;border-radius:15px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 12.5px Inter,sans-serif;cursor:pointer" style-active="transform:scale(.96)">Abbrechen</button>
+        <button onClick="{{ confirmOk }}" style="flex:1;padding:12px;border-radius:15px;border:none;font:700 12.5px Inter,sans-serif;cursor:pointer;background:{{ confirmC.okBg }};color:{{ confirmC.okColor }}" style-active="transform:scale(.96)">{{ confirmC.okLabel }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Profil · „Hero" — großer Avatar mit Glow, Stats-Zeile, Guthaben + Aufladen, Kostenverlauf</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 45% at 50% 0%,rgba(124,77,196,.34),transparent 60%),#0d0912"></div>
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto;padding-bottom:20px">
+    <div style="position:relative;padding:26px 18px 20px;text-align:center">
+      <div style="width:96px;height:96px;margin:0 auto;border-radius:32px;background:linear-gradient(135deg,#b48af0,#6425b0);display:flex;align-items:center;justify-content:center;font:700 34px Cinzel,serif;color:#fff;animation:glowPulse 3.6s ease-in-out infinite"></div>
+      <div style="margin-top:12px;font:700 22px Cinzel,serif;letter-spacing:.03em">{{ user.name }}</div>
+      <div style="font-size:11.5px;color:#8f7fa3">{{ user.email }}</div>
+      <div style="display:flex;gap:9px;margin-top:16px">
+        <sc-for list="{{ heroStats }}" as="s" hint-placeholder-count="3">
+        <div style="flex:1;padding:11px 8px;border-radius:17px;background:rgba(255,255,255,.045);border:1px solid rgba(157,107,240,.24);animation:cardIn .5s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ s.delay }}">
+          <div style="font:700 17px Cinzel,serif;color:#e6cf96">{{ s.value }}</div>
+          <div style="font-size:9.5px;color:#8f7fa3;letter-spacing:.05em">{{ s.label }}</div>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="padding:0 16px;display:flex;flex-direction:column;gap:13px">
+      <div style="padding:16px 18px;border-radius:22px;background:linear-gradient(135deg,rgba(202,164,106,.16),rgba(124,77,196,.14));border:1px solid rgba(202,164,106,.34)">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between">
+          <div>
+            <div style="font-size:10.5px;letter-spacing:.14em;color:#caa46a">GUTHABEN</div>
+            <div style="font:700 34px/1.1 Cinzel,serif;color:#f2dfae;margin-top:4px">{{ cost.credit }}</div>
+          </div>
+          <button style="padding:11px 17px;border-radius:15px;border:none;background:linear-gradient(135deg,#caa46a,#f2dfae);color:#241704;font:700 12.5px Inter,sans-serif;cursor:pointer;box-shadow:0 10px 24px -10px rgba(202,164,106,.9)" style-active="transform:scale(.94)">＋ Aufladen</button>
+        </div>
+        <div style="display:flex;gap:14px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(202,164,106,.2)">
+          <sc-for list="{{ costRows }}" as="r" hint-placeholder-count="3"><div style="flex:1"><div style="font-size:9.5px;color:#8f7fa3;letter-spacing:.06em">{{ r.label }}</div><div style="font:600 13.5px JetBrains Mono,monospace;color:#f5eee6;margin-top:2px">{{ r.value }}</div></div></sc-for>
+        </div>
+      </div>
+
+      <div style="padding:15px 17px;border-radius:22px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.26)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <span style="font:600 13px Cinzel,serif;letter-spacing:.04em">Kosten · 14 Tage</span>
+          <span style="font:500 10px JetBrains Mono,monospace;color:#8f7fa3">Ø {{ cost.avg }}/Tag</span>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:5px;height:88px">
+          <sc-for list="{{ spark }}" as="b" hint-placeholder-count="14"><div style="flex:1;border-radius:4px 4px 2px 2px;transform-origin:bottom;animation:barGrow .7s cubic-bezier(.22,.9,.3,1) both;height:{{ b.h }};background:{{ b.bg }};animation-delay:{{ b.delay }}"></div></sc-for>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font:500 9px JetBrains Mono,monospace;color:#8f7fa3"><span>19. Jul</span><span>heute</span></div>
+        <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#cdbede"><span>🔑 Beim Anbieter ausgegeben</span><strong style="color:#caa46a">{{ cost.providerSpent }}</strong></div>
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#cdbede"><span>🔑 Guthaben beim Anbieter</span><strong style="color:#caa46a">{{ cost.providerLeft }}</strong></div>
+        </div>
+      </div>
+
+      <button style="width:100%;padding:15px 17px;border-radius:22px;border:1px solid rgba(202,164,106,.3);background:linear-gradient(135deg,#8a53d8,#5a2199);color:#fff;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;animation:glowPulse 3.2s ease-in-out infinite" style-active="transform:scale(.97)">
+        <span style="font-size:23px">👥</span>
+        <span style="flex:1"><span style="display:block;font:700 15px Cinzel,serif;letter-spacing:.06em">FREUNDES-HUB</span><span style="display:block;font-size:11px;opacity:.85">Charaktere, Chats &amp; Medien deiner Freunde</span></span>
+        <span style="min-width:22px;height:22px;border-radius:11px;background:#ef4d63;font:700 11px Inter,sans-serif;display:flex;align-items:center;justify-content:center">3</span>
+        <span style="font-size:19px;opacity:.8">›</span>
+      </button>
+
+      <div style="display:flex;gap:11px">
+        <button style="flex:1;padding:13px;border-radius:18px;border:1px solid rgba(157,107,240,.3);background:rgba(255,255,255,.045);color:#cdbede;font:600 12.5px Inter,sans-serif;cursor:pointer">⚙️ Einstellungen</button>
+        <button style="flex:1;padding:13px;border-radius:18px;border:1px solid rgba(239,77,99,.3);background:rgba(239,77,99,.08);color:#ef4d63;font:600 12.5px Inter,sans-serif;cursor:pointer">Abmelden</button>
+      </div>
+
+      <div style="padding:15px 17px;border-radius:22px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.26)">
+        <div style="font:600 13px Cinzel,serif;margin-bottom:10px">🏅 Erfolge</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ badges }}" as="b" hint-placeholder-count="5"><span style="padding:7px 11px;border-radius:999px;font:600 11px Inter,sans-serif;animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;background:{{ b.bg }};color:{{ b.color }};border:1px solid {{ b.bc }};animation-delay:{{ b.delay }}">{{ b.label }}</span></sc-for>
+        </div>
+      </div>
+
+      <div style="padding:15px 17px;border-radius:22px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.26)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span style="font:600 13px Cinzel,serif">🖼️ Meine Medien</span>
+          <span style="font-size:10.5px;color:#8f7fa3">{{ media.length }} Dateien</span>
+        </div>
+        <p style="font-size:10.5px;color:#8f7fa3;margin:0 0 10px">Tippen zum Vergrößern · gedrückt halten zum Teilen</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+          <sc-for list="{{ media }}" as="m" hint-placeholder-count="9">
+          <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;cursor:pointer;animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;background:{{ m.bg }};animation-delay:{{ m.delay }}" style-active="transform:scale(.94)">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 7px,transparent 7px 15px)"></div>
+            <span style="position:absolute;bottom:5px;left:6px;font:500 7px JetBrains Mono,monospace;letter-spacing:.1em;color:rgba(255,255,255,.55)">{{ m.label }}</span>
+          </div>
+          </sc-for>
+        </div>
+        <button style="width:100%;margin-top:10px;padding:10px;border-radius:14px;border:1px solid rgba(157,107,240,.28);background:transparent;color:#cdbede;font:600 11.5px Inter,sans-serif;cursor:pointer">Mehr laden</button>
+      </div>
+
+      <sc-for list="{{ ownSections }}" as="s" hint-placeholder-count="4">
+      <div style="padding:15px 17px;border-radius:22px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.26)">
+        <div style="font:600 13px Cinzel,serif;margin-bottom:10px">{{ s.title }}</div>
+        <sc-if value="{{ s.hint }}" hint-placeholder-val="{{ false }}"><p style="font-size:10.5px;color:#8f7fa3;margin:-4px 0 10px">{{ s.hint }}</p></sc-if>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+            <div style="width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ i.bg }}"></div>
+            <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ i.name }}</div><div style="font-size:10.5px;color:#8f7fa3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.sub }}</div></div>
+            <span style="color:#8f7fa3;font-size:15px">›</span>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeLightbox }}" style="position:absolute;inset:0;z-index:9;background:rgba(6,4,9,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;animation:popIn .32s cubic-bezier(.22,.9,.3,1) both;cursor:pointer">
+    <div style="width:280px;height:280px;border-radius:22px;background:{{ lightbox.bg }};position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 12px,transparent 12px 26px)"></div>
+      <span style="position:absolute;bottom:10px;left:12px;font:500 9px JetBrains Mono,monospace;letter-spacing:.12em;color:rgba(255,255,255,.6)">{{ lightbox.label }}</span>
+    </div>
+    <div style="font-size:11.5px;color:#8f7fa3">Zum Schließen tippen · 2 Finger zum Zoomen</div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Profil · „Kompakt" — kein Hero, alles in dichten Kacheln, Kosten als Mini-Dashboard</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,#120c19,#0b0810)"></div>
+  <div style="position:absolute;inset:0 0 74px 0;overflow:auto;padding:14px 14px 20px">
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(157,107,240,.26);animation:cardIn .45s cubic-bezier(.22,.9,.3,1) both">
+      <div style="width:52px;height:52px;border-radius:17px;background:linear-gradient(135deg,#b48af0,#6425b0);display:flex;align-items:center;justify-content:center;font:700 20px Cinzel,serif"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font:700 15px Cinzel,serif">{{ user.name }}</div>
+        <div style="font-size:10.5px;color:#8f7fa3">{{ user.email }}</div>
+      </div>
+      <button style="padding:8px 12px;border-radius:13px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 11px Inter,sans-serif;cursor:pointer">⚙️</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px">
+      <div style="grid-column:1/-1;padding:13px 15px;border-radius:19px;background:linear-gradient(120deg,rgba(202,164,106,.15),rgba(124,77,196,.12));border:1px solid rgba(202,164,106,.32);display:flex;align-items:center;gap:12px;animation:cardIn .45s .05s cubic-bezier(.22,.9,.3,1) both">
+        <div style="flex:1"><div style="font-size:9.5px;letter-spacing:.14em;color:#caa46a">GUTHABEN</div><div style="font:700 25px/1.1 Cinzel,serif;color:#f2dfae">{{ cost.credit }}</div></div>
+        <div style="display:flex;align-items:flex-end;gap:3px;height:40px;flex:1">
+          <sc-for list="{{ sparkMini }}" as="b" hint-placeholder-count="10"><div style="flex:1;border-radius:2px;transform-origin:bottom;animation:barGrow .6s cubic-bezier(.22,.9,.3,1) both;height:{{ b.h }};background:{{ b.bg }};animation-delay:{{ b.delay }}"></div></sc-for>
+        </div>
+        <button style="padding:10px 13px;border-radius:13px;border:none;background:linear-gradient(135deg,#caa46a,#f2dfae);color:#241704;font:700 11.5px Inter,sans-serif;cursor:pointer">＋</button>
+      </div>
+      <sc-for list="{{ tileStats }}" as="t" hint-placeholder-count="4">
+      <div style="padding:12px 13px;border-radius:18px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22);animation:cardIn .45s cubic-bezier(.22,.9,.3,1) both;animation-delay:{{ t.delay }}">
+        <div style="font-size:9.5px;color:#8f7fa3;letter-spacing:.06em">{{ t.label }}</div>
+        <div style="font:700 18px Cinzel,serif;color:{{ t.color }};margin-top:3px">{{ t.value }}</div>
+        <div style="font-size:9.5px;color:#8f7fa3;margin-top:1px">{{ t.sub }}</div>
+      </div>
+      </sc-for>
+    </div>
+
+    <button style="width:100%;margin-top:11px;padding:13px 15px;border-radius:19px;border:1px solid rgba(202,164,106,.28);background:linear-gradient(135deg,#8a53d8,#5a2199);color:#fff;display:flex;align-items:center;gap:11px;cursor:pointer;text-align:left">
+      <span style="font-size:20px">👥</span>
+      <span style="flex:1"><span style="display:block;font:700 13px Cinzel,serif;letter-spacing:.06em">FREUNDES-HUB</span><span style="display:block;font-size:10.5px;opacity:.85">Charaktere, Chats &amp; Medien</span></span>
+      <span style="min-width:20px;height:20px;border-radius:10px;background:#ef4d63;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center">3</span>
+    </button>
+
+    <div style="margin-top:11px;padding:13px 15px;border-radius:19px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+      <div style="font:600 12px Cinzel,serif;margin-bottom:9px">🔐 Anmeldeoptionen</div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <sc-for list="{{ connects }}" as="c" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.04)">
+          <span style="font-size:14px">{{ c.icon }}</span>
+          <span style="flex:1;font-size:12px">{{ c.name }}</span>
+          <span style="font:600 10px Inter,sans-serif;padding:3px 8px;border-radius:9px;background:{{ c.bg }};color:{{ c.color }}">{{ c.state }}</span>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top:11px;padding:13px 15px;border-radius:19px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><span style="font:600 12px Cinzel,serif">🖼️ Medien</span><span style="font-size:10px;color:#8f7fa3">alle ansehen ›</span></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <sc-for list="{{ media }}" as="m" hint-placeholder-count="8">
+        <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:11px;overflow:hidden;cursor:pointer;background:{{ m.bg }}"><div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 6px,transparent 6px 13px)"></div></div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:11px">
+      <sc-for list="{{ badges }}" as="b" hint-placeholder-count="5"><span style="padding:6px 10px;border-radius:999px;font:600 10.5px Inter,sans-serif;background:{{ b.bg }};color:{{ b.color }};border:1px solid {{ b.bc }}">{{ b.label }}</span></sc-for>
+    </div>
+
+    <sc-for list="{{ ownSections }}" as="s" hint-placeholder-count="4">
+    <div style="margin-top:11px;padding:13px 15px;border-radius:19px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+      <div style="font:600 12px Cinzel,serif;margin-bottom:9px">{{ s.title }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 11px 7px 7px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
+          <div style="width:24px;height:24px;border-radius:8px;background:{{ i.bg }}"></div>
+          <span style="font:600 11.5px Inter,sans-serif">{{ i.name }}</span>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-for>
+
+    <button style="width:100%;margin-top:11px;padding:12px;border-radius:17px;border:1px solid rgba(239,77,99,.3);background:rgba(239,77,99,.08);color:#ef4d63;font:600 12px Inter,sans-serif;cursor:pointer">Abmelden</button>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1f">
+<div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Profil · „Register" — Tabs (Übersicht · Kosten · Freunde · Medien · Werke); der Hub steckt als „Freunde"-Tab in der Leiste statt als Button</div>
+<div class="dv-card" style="width:390px">
+<div style="position:relative;width:390px;height:810px;overflow:hidden;color:#f5eee6;font-family:Inter,sans-serif">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 100% 40% at 50% 0%,rgba(124,77,196,.26),transparent 65%),#0c0810"></div>
+  <div style="position:absolute;inset:0 0 74px 0;display:flex;flex-direction:column">
+    <div style="padding:16px 16px 0">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:56px;height:56px;border-radius:19px;background:linear-gradient(135deg,#b48af0,#6425b0);animation:glowPulse 3.6s ease-in-out infinite"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font:700 18px Cinzel,serif">{{ user.name }}</div>
+          <div style="font-size:10.5px;color:#8f7fa3">{{ user.email }}</div>
+        </div>
+        <div style="text-align:right"><div style="font-size:9px;letter-spacing:.12em;color:#caa46a">GUTHABEN</div><div style="font:700 17px Cinzel,serif;color:#f2dfae">{{ cost.credit }}</div></div>
+      </div>
+      <div style="position:relative;display:flex;gap:2px;margin-top:14px;padding:4px;border-radius:15px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22)">
+        <div style="position:absolute;top:4px;bottom:4px;border-radius:12px;background:linear-gradient(135deg,#b48af0,#6425b0);transition:left .42s cubic-bezier(.34,1.4,.5,1);width:{{ tabW }};left:{{ tabLeft }}"></div>
+        <sc-for list="{{ tabsF }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.onClick }}" style="position:relative;flex:1;padding:8px 1px;border:none;background:transparent;font:600 10px Inter,sans-serif;cursor:pointer;transition:color .3s ease;color:{{ t.color }}">{{ t.label }}</button></sc-for>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow:auto;padding:14px 16px 20px">
+      <sc-if value="{{ showOverview }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <sc-for list="{{ tileStats }}" as="t" hint-placeholder-count="4">
+          <div style="padding:13px;border-radius:18px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+            <div style="font-size:9.5px;color:#8f7fa3;letter-spacing:.06em">{{ t.label }}</div>
+            <div style="font:700 19px Cinzel,serif;color:{{ t.color }};margin-top:3px">{{ t.value }}</div>
+            <div style="font-size:9.5px;color:#8f7fa3">{{ t.sub }}</div>
+          </div>
+          </sc-for>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">🔐 Anmeldeoptionen</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ connects }}" as="c" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.04)">
+              <span style="font-size:14px">{{ c.icon }}</span><span style="flex:1;font-size:12px">{{ c.name }}</span>
+              <span style="font:600 10px Inter,sans-serif;padding:3px 8px;border-radius:9px;background:{{ c.bg }};color:{{ c.color }}">{{ c.state }}</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">🏅 Erfolge</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ badges }}" as="b" hint-placeholder-count="5"><span style="padding:6px 10px;border-radius:999px;font:600 10.5px Inter,sans-serif;background:{{ b.bg }};color:{{ b.color }};border:1px solid {{ b.bc }}">{{ b.label }}</span></sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button style="flex:1;padding:12px;border-radius:17px;border:1px solid rgba(157,107,240,.3);background:rgba(255,255,255,.045);color:#cdbede;font:600 12px Inter,sans-serif;cursor:pointer">⚙️ Einstellungen</button>
+          <button style="flex:1;padding:12px;border-radius:17px;border:1px solid rgba(239,77,99,.3);background:rgba(239,77,99,.08);color:#ef4d63;font:600 12px Inter,sans-serif;cursor:pointer">Abmelden</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showCosts }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(202,164,106,.16),rgba(124,77,196,.12));border:1px solid rgba(202,164,106,.32)">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <div><div style="font-size:9.5px;letter-spacing:.14em;color:#caa46a">GUTHABEN</div><div style="font:700 31px/1.1 Cinzel,serif;color:#f2dfae">{{ cost.credit }}</div></div>
+            <button style="padding:11px 16px;border-radius:14px;border:none;background:linear-gradient(135deg,#caa46a,#f2dfae);color:#241704;font:700 12px Inter,sans-serif;cursor:pointer">＋ Aufladen</button>
+          </div>
+        </div>
+        <div style="padding:15px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="display:flex;justify-content:space-between;margin-bottom:11px"><span style="font:600 12.5px Cinzel,serif">Verlauf · 14 Tage</span><span style="font:500 10px JetBrains Mono,monospace;color:#8f7fa3">Ø {{ cost.avg }}/Tag</span></div>
+          <div style="display:flex;align-items:flex-end;gap:5px;height:96px">
+            <sc-for list="{{ spark }}" as="b" hint-placeholder-count="14"><div style="flex:1;border-radius:4px 4px 2px 2px;transform-origin:bottom;animation:barGrow .7s cubic-bezier(.22,.9,.3,1) both;height:{{ b.h }};background:{{ b.bg }};animation-delay:{{ b.delay }}"></div></sc-for>
+          </div>
+          <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ costRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>{{ r.label }}</span><strong style="color:#caa46a;font-family:JetBrains Mono,monospace">{{ r.value }}</strong></div></sc-for>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>🔑 Beim Anbieter ausgegeben</span><strong style="color:#caa46a">{{ cost.providerSpent }}</strong></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#cdbede"><span>🔑 Guthaben beim Anbieter</span><strong style="color:#caa46a">{{ cost.providerLeft }}</strong></div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Teuerste Chats</div>
+          <sc-for list="{{ topChats }}" as="t" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0">
+            <div style="width:28px;height:28px;border-radius:9px;background:{{ t.bg }}"></div>
+            <span style="flex:1;font-size:12px">{{ t.name }}</span>
+            <div style="width:70px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,#caa46a,#b48af0);width:{{ t.pct }}"></div></div>
+            <span style="font:600 10.5px JetBrains Mono,monospace;color:#caa46a;width:46px;text-align:right">{{ t.cost }}</span>
+          </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showFriends }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <div style="padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(202,164,106,.14),rgba(124,77,196,.12));border:1px solid rgba(202,164,106,.36)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font:600 12.5px Cinzel,serif">Offene Anfragen</span><span style="min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:#ef4d63;color:#fff;font:700 10.5px Inter,sans-serif;display:flex;align-items:center;justify-content:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both">2</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ friendRequests }}" as="f" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.05)">
+              <div style="width:32px;height:32px;border-radius:11px;background:{{ f.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ f.name }}</div><div style="font-size:10px;color:#8f7fa3">{{ f.sub }}</div></div>
+              <button style="width:32px;height:32px;border-radius:11px;border:none;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font-size:13px;cursor:pointer" style-active="transform:scale(.9)">✓</button>
+              <button style="width:32px;height:32px;border-radius:11px;border:1px solid rgba(239,77,99,.4);background:rgba(239,77,99,.08);color:#ef4d63;font-size:12px;cursor:pointer" style-active="transform:scale(.9)">✕</button>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 13px;border-radius:15px;background:rgba(255,255,255,.05);border:1px solid rgba(157,107,240,.22)">
+          <span style="color:#8f7fa3;font-size:12px">⌕</span><span style="font-size:12.5px;color:#8f7fa3">Username suchen — Freund hinzufügen …</span>
+        </div>
+
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">Meine Freunde</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ friends }}" as="f" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="position:relative;width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ f.bg }}">
+                <sc-if value="{{ f.online }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;border-radius:50%;background:#8fd6a0;border:2px solid #18111c"></span></sc-if>
+              </div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ f.name }}</div><div style="font-size:10.5px;color:#8f7fa3">{{ f.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px"><span style="font:600 12.5px Cinzel,serif">Charaktere der Freunde</span><span style="font-size:10px;color:#8f7fa3">alle ›</span></div>
+          <div style="display:flex;gap:9px;overflow:auto;padding-bottom:2px">
+            <sc-for list="{{ friendChars }}" as="c" hint-placeholder-count="5">
+            <div style="flex:none;width:88px;animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;animation-delay:{{ c.delay }}">
+              <div style="position:relative;width:88px;height:112px;border-radius:15px;overflow:hidden;background:{{ c.bg }}">
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 8px,transparent 8px 18px)"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(13,9,18,.9))"></div>
+                <div style="position:absolute;bottom:6px;left:7px;right:6px"><div style="font:600 11px Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</div><div style="font-size:8.5px;color:#caa46a">{{ c.owner }}</div></div>
+              </div>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px"><span style="font:600 12.5px Cinzel,serif">Geteilte Chats</span><span style="font-size:10px;color:#8f7fa3">alle ›</span></div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ friendChats }}" as="c" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ c.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ c.name }}</div><div style="font-size:10.5px;color:#8f7fa3">{{ c.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:600 12.5px Cinzel,serif">Geteilte Medien</span><span style="font-size:10px;color:#8f7fa3">alle ›</span></div>
+          <p style="font-size:10.5px;color:#8f7fa3;margin:4px 0 9px">Bilder &amp; Videos, die Freunde für dich freigegeben haben.</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <sc-for list="{{ sharedMedia }}" as="m" hint-placeholder-count="8">
+            <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:11px;overflow:hidden;cursor:pointer;background:{{ m.bg }}" style-active="transform:scale(.94)">
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 6px,transparent 6px 13px)"></div>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:7px 2px 3px;text-align:center;background:linear-gradient(180deg,transparent,rgba(13,9,18,.85));font:600 7px Inter,sans-serif;color:rgba(245,238,230,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.owner }}</div>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif">Von mir geteilt</div>
+          <p style="font-size:10.5px;color:#8f7fa3;margin:4px 0 9px">Jederzeit änderbar — wer es sieht oder ob überhaupt.</p>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ sharedByMe }}" as="i" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:30px;height:30px;min-width:30px;border-radius:10px;background:{{ i.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12px Inter,sans-serif">{{ i.name }}</div><div style="font-size:10px;color:#8f7fa3">{{ i.sub }}</div></div>
+              <button style="padding:6px 10px;border-radius:11px;border:1px solid rgba(157,107,240,.3);background:transparent;color:#cdbede;font:600 10.5px Inter,sans-serif;cursor:pointer">Ändern</button>
+            </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.07)">
+            <div style="font:600 11.5px Inter,sans-serif;margin-bottom:8px">Standard-Rechte für alle Freunde</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ permDefaults }}" as="p" hint-placeholder-count="4"><span style="padding:6px 11px;border-radius:999px;font:600 10.5px Inter,sans-serif;background:{{ p.bg }};color:{{ p.color }};border:1px solid {{ p.bc }}">{{ p.label }} · {{ p.state }}</span></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showMedia }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <p style="font-size:11px;color:#8f7fa3;margin:0 0 10px">Tippen zum Vergrößern · gedrückt halten zum Teilen oder Herunterladen.</p>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:9px">
+          <sc-for list="{{ media }}" as="m" hint-placeholder-count="9">
+          <div onClick="{{ m.onTap }}" style="position:relative;aspect-ratio:1;border-radius:17px;overflow:hidden;cursor:pointer;animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;background:{{ m.bg }};animation-delay:{{ m.delay }}" style-active="transform:scale(.95)">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 9px,transparent 9px 19px)"></div>
+            <span style="position:absolute;bottom:7px;left:8px;font:500 8px JetBrains Mono,monospace;letter-spacing:.1em;color:rgba(255,255,255,.55)">{{ m.label }}</span>
+          </div>
+          </sc-for>
+        </div>
+        <button style="width:100%;margin-top:11px;padding:11px;border-radius:15px;border:1px solid rgba(157,107,240,.28);background:transparent;color:#cdbede;font:600 11.5px Inter,sans-serif;cursor:pointer">Mehr laden</button>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showWorks }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:11px;animation:slideRight .4s cubic-bezier(.22,.9,.3,1) both">
+        <sc-for list="{{ ownSections }}" as="s" hint-placeholder-count="3">
+        <div style="padding:14px 16px;border-radius:20px;background:rgba(24,17,28,.9);border:1px solid rgba(157,107,240,.22)">
+          <div style="font:600 12.5px Cinzel,serif;margin-bottom:9px">{{ s.title }}</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{ s.items }}" as="i" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)">
+              <div style="width:34px;height:34px;min-width:34px;border-radius:11px;background:{{ i.bg }}"></div>
+              <div style="flex:1;min-width:0"><div style="font:600 12.5px Inter,sans-serif">{{ i.name }}</div><div style="font-size:10.5px;color:#8f7fa3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.sub }}</div></div>
+              <span style="color:#8f7fa3;font-size:15px">›</span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ lightbox }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeLightbox }}" style="position:absolute;inset:0;z-index:9;background:rgba(6,4,9,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;animation:popIn .32s cubic-bezier(.22,.9,.3,1) both;cursor:pointer">
+    <div style="width:290px;height:290px;border-radius:22px;background:{{ lightbox.bg }};position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 12px,transparent 12px 26px)"></div></div>
+    <div style="font-size:11.5px;color:#8f7fa3">Zum Schließen tippen</div>
+  </div>
+  </sc-if>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:74px;display:flex;align-items:center;justify-content:space-around;background:rgba(18,13,24,.95);border-top:1px solid rgba(202,164,106,.16)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"></path></svg><span>Start</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Chats</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg><span>Erstellen</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#8f7fa3"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg><span>Identitäten</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font:500 10px Inter,sans-serif;color:#caa46a"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle cx="12" cy="10" r="3"></circle><path d="M6.5 20a6 6 0 0 1 11 0"></path></svg><span>Profil</span></div>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Nächste Schritte: „<a class="dv-oid" href="#1a">1a</a> mit den Swipes aus <a class="dv-oid" href="#1b">1b</a>" · „<a class="dv-oid" href="#1f">1f</a> ausbauen, Kosten-Tab detaillierter" · „mach mir den Export-Code für <a class="dv-oid" href="#1a">1a</a> + <a class="dv-oid" href="#1d">1d</a>"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;previewLines&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:1,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Chats&quot;},&quot;showEmbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphäre&quot;}}">
+const CHATS = [
+  {id:'c1',name:'Thorne Vayle',kind:'char',kindLabel:'🎭 CHARAKTER',hue:284,time:'12:04',tokens:'18.240',tokNum:18240,cost:'1,82 $',costNum:1.82,unread:3,turn:true,pinned:true,muted:false,folder:'fav',ctx:72,msgs:312,
+   preview:'*Er lehnt an der Bar, das Glas halb geleert, und mustert dich über den Rand hinweg.* Du kommst spät. Ich hatte schon fast angefangen zu glauben, du hättest es dir anders überlegt — was, ehrlich gesagt, klüger gewesen wäre.'},
+  {id:'c2',name:'Akademie der Schatten',kind:'universe',kindLabel:'🌌 UNIVERSUM',hue:262,time:'gestern',tokens:'41.900',tokNum:41900,cost:'4,15 $',costNum:4.15,unread:0,turn:false,pinned:true,muted:false,folder:'story',ctx:88,msgs:548,
+   preview:'*Der Innenhof liegt still unter dem Nebel. Aus dem Ostflügel dringt Kerzenlicht.* Mira: „Sie wissen es. Wenn wir jetzt nicht gehen, gehen wir gar nicht mehr."'},
+  {id:'c3',name:'Seraphine & Kael',kind:'aivsai',kindLabel:'🤖 AI VS. AI',hue:340,time:'gestern',tokens:'9.120',tokNum:9120,cost:'0,94 $',costNum:0.94,unread:12,turn:false,pinned:false,muted:true,folder:'exp',ctx:36,msgs:96,
+   preview:'Kael: „Du hast mich verraten." — Seraphine: *lacht leise* „Nein. Ich habe dich überlebt. Das ist etwas völlig anderes, mein Lieber."'},
+  {id:'c4',name:'Lys (mit Dennis)',kind:'shared',kindLabel:'🔗 GETEILT',hue:198,time:'Mi',tokens:'27.480',tokNum:27480,cost:'2,61 $',costNum:2.61,unread:1,turn:true,pinned:false,muted:false,folder:'friends',ctx:64,msgs:204,
+   preview:'*Sie schiebt dir die Karte über den Tisch, ohne den Blick zu heben.* Der Hafen. Mitternacht. Bring niemanden mit — vor allem nicht ihn.'},
+  {id:'c5',name:'Ravenna Duskmoor',kind:'char',kindLabel:'🎭 CHARAKTER',hue:16,time:'Di',tokens:'55.300',tokNum:55300,cost:'6,08 $',costNum:6.08,unread:0,turn:false,pinned:false,muted:false,folder:'fav',ctx:94,msgs:731,
+   preview:'*Der Rabe auf ihrer Schulter legt den Kopf schief.* Du fragst nach dem Preis, als wäre er verhandelbar. Süß.'},
+  {id:'c6',name:'Konversation · Nia',kind:'conv',kindLabel:'💬 KONVERSATION',hue:150,time:'Mo',tokens:'6.740',tokNum:6740,cost:'0,58 $',costNum:0.58,unread:0,turn:true,pinned:false,muted:false,folder:'friends',ctx:22,msgs:58,
+   preview:'Nia: *setzt sich neben dich auf die Mauer* Also. Erzähl. Was ist gestern wirklich passiert?'},
+  {id:'c7',name:'Der Rote Turm',kind:'universe',kindLabel:'🌌 UNIVERSUM',hue:302,time:'So',tokens:'33.010',tokNum:33010,cost:'3,44 $',costNum:3.44,unread:0,turn:false,pinned:false,muted:false,folder:'story',ctx:78,msgs:389,
+   preview:'*Sieben Stockwerke, sieben Wächter, und keiner von ihnen atmet.* Der Aufstieg beginnt bei Sonnenuntergang.'}
+];
+const KIND_FILTERS = [['all','Alle'],['char','Charakter'],['universe','Universum'],['aivsai','AI vs. AI'],['shared','Geteilt']];
+const FOLDERS = [['all','Alles','🗂',0],['fav','Favoriten','⭐',0],['story','Große Storys','📖',0],['friends','Mit Freunden','👥',0],['exp','Experimente','🧪',0]];
+
+class Component extends DCLogic {
+  state = { exp:{}, openA:null, fA:'all', fB:'all', sort:'recent', pin:{}, mute:{}, del:{}, folder:'all', tabF:'overview', lb:null,
+            view:'chats', sheet:false, sheetVariant:'cards', f2:'all', tab2:'overview' };
+
+  bg(h, a){ return `linear-gradient(155deg,hsl(${h} 52% ${a||34}%),hsl(${h-38} 58% 13%))`; }
+  isPinned(c){ const o=this.state.pin[c.id]; return o===undefined?c.pinned:o; }
+  isMuted(c){ const o=this.state.mute[c.id]; return o===undefined?c.muted:o; }
+
+  base(filter){
+    const s=this.state;
+    let l=CHATS.filter(c=>!s.del[c.id]).filter(c=>filter==='all'||c.kind===filter);
+    if(s.sort==='cost') l=[...l].sort((a,b)=>b.costNum-a.costNum);
+    else if(s.sort==='tokens') l=[...l].sort((a,b)=>b.tokNum-a.tokNum);
+    return [...l].sort((a,b)=>(this.isPinned(b)?1:0)-(this.isPinned(a)?1:0));
+  }
+
+  decorate(c,i,clamp,variant){
+    const ex=!!this.state.exp[c.id];
+    return {...c,
+      bg:this.bg(c.hue), border:this.isPinned(c)?'rgba(202,164,106,.45)':'rgba(157,107,240,.26)',
+      delay:(i*0.06)+'s', clamp:clamp, expanded:variant==='a', expandHint:'Tippen zum Öffnen',
+      pinned:this.isPinned(c), muted:this.isMuted(c), muteIcon:this.isMuted(c)?'🔔':'🔇',
+      ctxPct:c.ctx+'%', unread:c.unread?String(c.unread):'', msgLabel:c.msgs.toLocaleString('de-DE')+' Nachr.',
+      onTap:()=>this.setState({open:{...c,bg:this.bg(c.hue),variant}}),
+      onOpen:(e)=>{e.stopPropagation();this.setState({open:{...c,bg:this.bg(c.hue),variant}});},
+      onPin:(e)=>{e.stopPropagation();this.setState({confirm:{kind:'pin',chat:c,variant}});},
+      onMute:(e)=>{e.stopPropagation();this.setState(s=>({mute:{...s.mute,[c.id]:!this.isMuted(c)}}));},
+      onDelete:(e)=>{e.stopPropagation();this.setState({confirm:{kind:'del',chat:c,variant}});},
+      onSwipe:(e)=>this.swipe(e,c,variant)
+    };
+  }
+
+  swipe(e,c,variant){
+    const row=e.currentTarget; let dx=0; const x0=e.clientX;
+    try{row.setPointerCapture(e.pointerId);}catch(_){}
+    const move=ev=>{dx=ev.clientX-x0;row.style.transition='none';row.style.transform=`translateX(${dx}px)`;};
+    const up=()=>{
+      row.removeEventListener('pointermove',move);row.removeEventListener('pointerup',up);row.removeEventListener('pointercancel',up);
+      row.style.transition='transform .4s cubic-bezier(.34,1.56,.64,1)';row.style.transform='translateX(0)';
+      if(dx<-90) this.setState({confirm:{kind:'del',chat:c,variant}});
+      else if(dx>90) this.setState({confirm:{kind:'pin',chat:c,variant}});
+    };
+    row.addEventListener('pointermove',move);row.addEventListener('pointerup',up);row.addEventListener('pointercancel',up);
+  }
+
+  confirmVals(){
+    const cf=this.state.confirm, pinned=this.isPinned(cf.chat);
+    return {
+      title:cf.kind==='del'?'Chat löschen?':(pinned?'Anheftung lösen?':'Chat anheften?'),
+      text:cf.kind==='del'
+        ? `„${cf.chat.name}" wird mit dem gesamten Verlauf gelöscht. Das lässt sich nicht rückgängig machen.`
+        : (pinned?`„${cf.chat.name}" rutscht wieder in die normale Sortierung.`:`„${cf.chat.name}" bleibt oben in der Liste stehen.`),
+      okLabel:cf.kind==='del'?'Löschen':(pinned?'Lösen':'Anheften'),
+      okBg:cf.kind==='del'?'linear-gradient(135deg,#ef4d63,#7a1424)':'linear-gradient(135deg,#caa46a,#f2dfae)',
+      okColor:cf.kind==='del'?'#fff':'#241704'
+    };
+  }
+
+  chips(list,active,set){
+    return list.map(([k,label])=>({key:k,label,onClick:()=>this.setState(set(k)),
+      bg:active===k?'linear-gradient(135deg,#b48af0,#6425b0)':'rgba(255,255,255,.05)',
+      color:active===k?'#fff':'#cdbede',
+      bc:active===k?'rgba(202,164,106,.5)':'rgba(157,107,240,.24)'}));
+  }
+
+  renderVals(){
+    const s=this.state, lines=this.props.previewLines ?? 3;
+    const alive=CHATS.filter(c=>!s.del[c.id]);
+    const media=Array.from({length:9},(_,i)=>{
+      const o={bg:this.bg(200+i*22,30),label:i%3===2?'VIDEO':'BILD',delay:(i*0.045)+'s'};
+      o.onTap=()=>this.setState({lb:o}); return o;});
+    const spark=[0.3,0.55,0.2,0.75,0.42,0.9,0.35,0.62,1,0.48,0.28,0.7,0.85,0.52].map((v,i)=>({
+      h:Math.round(v*100)+'%', delay:(i*0.05)+'s',
+      bg:v>0.8?'linear-gradient(180deg,#f2dfae,#caa46a)':'linear-gradient(180deg,#b48af0,#4e1c8c)'}));
+    const badge=(label,gold)=>({label,bg:gold?'rgba(202,164,106,.16)':'rgba(157,107,240,.16)',color:gold?'#e6cf96':'#c9a7f5',bc:gold?'rgba(202,164,106,.42)':'rgba(157,107,240,.35)'});
+    const tabs=[['overview','Übersicht'],['costs','Kosten'],['friends','Freunde'],['media','Medien'],['works','Werke']];
+    const idx=tabs.findIndex(t=>t[0]===s.tabF);
+    const fc=(k)=>alive.filter(c=>c.folder===k).length;
+
+    return {
+      embers:(this.props.showEmbers ?? true)?[['8%','15s','0s'],['26%','19s','3s'],['48%','13s','6s'],['67%','21s','1s'],['88%','17s','8s']].map(e=>({left:e[0],dur:e[1],delay:e[2]})):[],
+      chatsMeta:`${alive.length} Chats · ${alive.filter(c=>c.unread).length} ungelesen · ${alive.filter(c=>c.turn).length}× du bist am Zug`,
+      filtersA:this.chips(KIND_FILTERS,s.fA,k=>({fA:k})),
+      filtersB:this.chips(KIND_FILTERS,s.fB,k=>({fB:k})),
+      listA:this.base(s.fA).map((c,i)=>this.decorate(c,i,lines,'a')),
+      listB:this.base(s.fB).map((c,i)=>this.decorate(c,i,2,'b')),
+      listC:this.base('all').filter(c=>s.folder==='all'||c.folder===s.folder).map((c,i)=>this.decorate(c,i,2,'c')),
+      folders:FOLDERS.map((f,i)=>({icon:f[2],name:f[1],count:(f[0]==='all'?alive.length:fc(f[0]))+' Chats',delay:(i*0.07)+'s',
+        onClick:()=>this.setState({folder:f[0]}),
+        bg:s.folder===f[0]?'linear-gradient(140deg,rgba(180,138,240,.3),rgba(100,37,176,.25))':'rgba(255,255,255,.045)',
+        bc:s.folder===f[0]?'rgba(202,164,106,.5)':'rgba(157,107,240,.2)',
+        color:s.folder===f[0]?'#f2dfae':'#f5eee6'})),
+      onSort:(e)=>this.setState({sort:e.target.value}),
+      openA:s.open&&s.open.variant==='a'?s.open:null,
+      openB:s.open&&s.open.variant==='b'?s.open:null,
+      openC:s.open&&s.open.variant==='c'?s.open:null,
+      closeA:()=>this.setState({open:null}),
+      confirmA:s.confirm&&s.confirm.variant==='a'?this.confirmVals():null,
+      confirmB:s.confirm&&s.confirm.variant==='b'?this.confirmVals():null,
+      confirmC:s.confirm&&s.confirm.variant==='c'?this.confirmVals():null,
+      confirmCancel:()=>this.setState({confirm:null}),
+      confirmOk:()=>{const cf=this.state.confirm;if(!cf)return;
+        if(cf.kind==='del') this.setState(st=>({del:{...st.del,[cf.chat.id]:true},confirm:null}));
+        else this.setState(st=>({pin:{...st.pin,[cf.chat.id]:!this.isPinned(cf.chat)},confirm:null}));},
+      demoMsgs:[
+        {text:'*Der Regen trommelt gegen die Fenster der Taverne.* Du bist spät dran.',align:'flex-start',bg:'rgba(255,255,255,.055)',bc:'rgba(157,107,240,.24)',color:'#f5eee6',delay:'.1s'},
+        {text:'Ich hatte Gesellschaft. Die Art, die man nicht einlädt.',align:'flex-end',bg:'linear-gradient(135deg,#8a53d8,#5a2199)',bc:'rgba(202,164,106,.3)',color:'#fff',delay:'.22s'},
+        {text:'*Er stellt das Glas ab, langsam.* Dann sollten wir uns beeilen.',align:'flex-start',bg:'rgba(255,255,255,.055)',bc:'rgba(157,107,240,.24)',color:'#f5eee6',delay:'.34s'}
+      ],
+
+      user:{name:'DennisDerErste',email:'dennis@likedennis.de'},
+      cost:{credit:'23,80 $',avg:'0,62 $',providerSpent:'41,20 $',providerLeft:'18,60 $'},
+      costRows:[{label:'HEUTE',value:'0,84 $'},{label:'MONAT',value:'12,40 $'},{label:'GESAMT',value:'64,90 $'}],
+      heroStats:[{value:'1.284',label:'NACHRICHTEN',delay:'.05s'},{value:'46',label:'BILDER',delay:'.12s'},{value:'12',label:'CHARAKTERE',delay:'.19s'}],
+      tileStats:[
+        {label:'NACHRICHTEN',value:'1.284',sub:'+38 diese Woche',color:'#e6cf96',delay:'.06s'},
+        {label:'BILDER & VIDEOS',value:'46',sub:'9 diesen Monat',color:'#c9a7f5',delay:'.12s'},
+        {label:'LIEBLINGSFIGUR',value:'Thorne',sub:'312 Nachrichten',color:'#e6cf96',delay:'.18s'},
+        {label:'LÄNGSTE STORY',value:'55K',sub:'Ravenna Duskmoor',color:'#c9a7f5',delay:'.24s'}],
+      spark, sparkMini:spark.slice(4),
+      badges:[badge('🔥 30 Tage Serie',true),badge('📖 100K Tokens'),badge('🎭 12 Charaktere'),badge('🌌 3 Universen'),badge('🎨 46 Bilder',true)],
+      media, lightbox:s.lb, closeLightbox:()=>this.setState({lb:null}),
+      connects:[
+        {icon:'✉️',name:'E-Mail / Passwort',state:'Verknüpft',bg:'rgba(124,196,140,.16)',color:'#8fd6a0'},
+        {icon:'🎮',name:'Twitch',state:'Verknüpft',bg:'rgba(124,196,140,.16)',color:'#8fd6a0'},
+        {icon:'🔵',name:'Google',state:'Verbinden',bg:'rgba(157,107,240,.18)',color:'#c9a7f5'}],
+      ownSections:[
+        {title:'🎭 Meine Charaktere',hint:'',items:[
+          {name:'Thorne Vayle',sub:'Öffentlich · Dark Romance',bg:this.bg(284)},
+          {name:'Ravenna Duskmoor',sub:'Privat · 18+',bg:this.bg(16)},
+          {name:'Mira Sonnenhand',sub:'Öffentlich · Fantasy',bg:this.bg(58)}]},
+        {title:'🌌 Meine Universen',hint:'',items:[
+          {name:'Akademie der Schatten',sub:'6 Figuren · Öffentlich',bg:this.bg(262)},
+          {name:'Der Rote Turm',sub:'4 Figuren · Privat',bg:this.bg(302)}]},
+        {title:'👤 Meine Identitäten',hint:'Identitäten sind privat — nur du siehst sie.',items:[
+          {name:'Kaelen',sub:'männlich · 28',bg:this.bg(198)},
+          {name:'Nyx',sub:'divers · 24',bg:this.bg(150)}]}],
+      topChats:[{name:'Ravenna Duskmoor',cost:'6,08 $',pct:'100%',bg:this.bg(16)},
+        {name:'Akademie der Schatten',cost:'4,15 $',pct:'68%',bg:this.bg(262)},
+        {name:'Der Rote Turm',cost:'3,44 $',pct:'56%',bg:this.bg(302)}],
+      tabsF:tabs.map(t=>({label:t[1],onClick:()=>this.setState({tabF:t[0]}),color:s.tabF===t[0]?'#fff':'#8f7fa3'})),
+      tabW:`calc((100% - 8px)/${tabs.length})`, tabLeft:`calc(4px + ${idx} * (100% - 8px)/${tabs.length})`,
+      showOverview:s.tabF==='overview', showCosts:s.tabF==='costs', showMedia:s.tabF==='media', showWorks:s.tabF==='works',
+      showFriends:s.tabF==='friends',
+
+      // ===== Turn 2: zusammengebaute App (1b + 1f) =====
+      list2:this.base(s.f2).map((c,i)=>this.decorate(c,i,2,'2')),
+      filters2:this.chips(KIND_FILTERS,s.f2,k=>({f2:k})),
+      open2:s.open&&s.open.variant==='2'?s.open:null,
+      confirm2:s.confirm&&s.confirm.variant==='2'?this.confirmVals():null,
+      isChats:s.view==='chats', isProfile:s.view==='profile',
+      goChats:()=>this.setState({view:'chats'}), goProfile:()=>this.setState({view:'profile'}),
+      navChatColor:s.view==='chats'?'#caa46a':'#8f7fa3', navProfileColor:s.view==='profile'?'#caa46a':'#8f7fa3',
+      tabs2:[['overview','Übersicht'],['costs','Kosten'],['friends','Freunde'],['media','Medien'],['works','Werke']]
+        .map(t=>({label:t[1],onClick:()=>this.setState({tab2:t[0]}),color:s.tab2===t[0]?'#fff':'#8f7fa3'})),
+      tab2W:'calc((100% - 8px)/5)',
+      tab2Left:`calc(4px + ${['overview','costs','friends','media','works'].indexOf(s.tab2)} * (100% - 8px)/5)`,
+      show2Overview:s.tab2==='overview', show2Costs:s.tab2==='costs', show2Friends:s.tab2==='friends',
+      show2Media:s.tab2==='media', show2Works:s.tab2==='works',
+      openSheet:()=>this.setState({sheet:true,sheetClosing:false}),
+      closeSheet:()=>{
+        if(this.state.sheetVariant!=='radial'){this.setState({sheet:false,helpOpen:false});return;}
+        this.setState({sheetClosing:true});
+        clearTimeout(this._ct);
+        this._ct=setTimeout(()=>this.setState({sheet:false,sheetClosing:false,helpOpen:false}),330);
+      },
+      closing:!!s.sheetClosing,
+      overlayAnim:s.sheetClosing?'fadeOut .3s ease both':'popIn .22s ease both',
+      helpOpen:!!s.helpOpen,
+      helpArc:'translate(0,70px)',
+      helpAnim:s.sheetClosing?'popOut .26s ease both':'popIn .42s cubic-bezier(.34,1.56,.64,1) both',
+      helpLabel:s.helpOpen?'Modi Erklärung ausblenden':'Modi Erklärung',
+      toggleHelp:(e)=>{e.stopPropagation();this.setState(st=>({helpOpen:!st.helpOpen}));},
+      sheetCards:s.sheet&&s.sheetVariant==='cards', sheetRadial:s.sheet&&s.sheetVariant==='radial', sheetFull:s.sheet&&s.sheetVariant==='full',
+      useCards:()=>this.setState({sheetVariant:'cards',sheet:true,view:'chats'}),
+      useRadial:()=>this.setState({sheetVariant:'radial',sheet:true,view:'chats'}),
+      useFull:()=>this.setState({sheetVariant:'full',sheet:true,view:'chats'}),
+      newChatOpts:[
+        {icon:'🎭',title:'AI-Charakter Chat',sub:'Chatte mit einem Charakter',short:'Du spielst gegenüber einer KI-Figur — sie bleibt in ihrer Rolle.',bg:this.bg(284),arc:'translate(-26px,138px)'},
+        {icon:'🌌',title:'Universum-Chat',sub:'Alle Charaktere eines Universums gleichzeitig',short:'Mehrere Figuren einer Welt in einer Szene; du wählst, wen du ansprichst.',bg:this.bg(262),arc:'translate(-40px,208px)'},
+        {icon:'💬',title:'Konversations-Chat',sub:'Gemeinsame Story mit einem Freund — beide spielen ihre eigene Identität',short:'Zwei echte Menschen, abwechselnd — jeder zahlt seine eigenen Antworten.',bg:this.bg(150),arc:'translate(-26px,278px)'},
+        {icon:'🤖',title:'AI vs. AI',sub:'Zwei KI-Figuren unterhalten sich — du gibst Regie und liest mit',short:'Du schreibst nicht mit, sondern gibst Regie und holst die nächste Nachricht.',bg:this.bg(16),arc:'translate(2px,344px)'}
+      ].map((o,i)=>({...o,
+        delay:s.sheetClosing?((3-i)*0.05)+'s':((i+1)*0.06)+'s',
+        anim:s.sheetClosing?'popOut .26s ease both':'popIn .42s cubic-bezier(.34,1.56,.64,1) both',
+        showHelp:!!s.helpOpen})),
+      friendRequests:[{name:'Nia_Nightfall',sub:'möchte dein Freund sein',bg:this.bg(150)},{name:'Kaelthas',sub:'möchte dein Freund sein',bg:this.bg(212)}],
+      friends:[
+        {name:'Dennis',sub:'Charaktere · Chats · Medien',bg:this.bg(284),online:true},
+        {name:'Mira_S',sub:'nur Charaktere',bg:this.bg(58),online:false},
+        {name:'Nyxie',sub:'Charaktere · Medien',bg:this.bg(320),online:true}],
+      friendChars:Array.from({length:6},(_,i)=>({bg:this.bg(190+i*30),name:['Lys','Corvin','Ilya','Brannt','Sera','Odo'][i],owner:['Dennis','Mira_S','Nyxie','Dennis','Nyxie','Mira_S'][i],delay:(i*0.05)+'s'})),
+      sharedMedia:Array.from({length:8},(_,i)=>{
+        const o={bg:this.bg(180+i*26,30),label:i%3===2?'VIDEO':'BILD',owner:['Dennis','Nyxie','Mira_S','Dennis','Nyxie','Dennis','Mira_S','Nyxie'][i],delay:(i*0.04)+'s'};
+        o.onTap=()=>this.setState({lb:o}); return o;}),
+      friendChats:[{name:'Lys',sub:'Dennis · 👀 Nur-Lese · vor 2 Std.',bg:this.bg(198)},{name:'Der Rote Turm',sub:'Nyxie · 👀 Nur-Lese · gestern',bg:this.bg(302)}],
+      sharedByMe:[{name:'Thorne Vayle · Chat',sub:'Alle Freunde',bg:this.bg(284)},{name:'12 Bilder',sub:'Nur Dennis, Nyxie',bg:this.bg(230)},{name:'3 Videos',sub:'Alle Freunde',bg:this.bg(30)}],
+      permDefaults:[{label:'Charaktere',on:true},{label:'Chats',on:true},{label:'Medien',on:false},{label:'Profil',on:true}].map(p=>({...p,
+        bg:p.on?'rgba(202,164,106,.18)':'rgba(255,255,255,.05)',color:p.on?'#e6cf96':'#8f7fa3',bc:p.on?'rgba(202,164,106,.45)':'rgba(157,107,240,.2)',state:p.on?'AN':'AUS'}))
+    };
+  }
+}
+</script>
+</body>
+</html>
