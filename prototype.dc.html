@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#100c17;font-family:Inter,system-ui,sans-serif}
+a{color:#caa46a}a:hover{color:#e6cf96}
+@keyframes bt-ember{0%{transform:translateY(0);opacity:0}10%{opacity:.9}50%{transform:translateY(-46vh) translateX(10px);opacity:.55}100%{transform:translateY(-90vh) translateX(-6px);opacity:0}}
+@keyframes bt-mist{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,26px) scale(1.18)}}
+@keyframes bt-shimmer{to{background-position:200% center}}
+@keyframes bt-in{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes bt-breathe{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.bt-scroll::-webkit-scrollbar{display:none}
+.bt-scroll{scrollbar-width:none}
+</style></helmet>
+
+<div style="display:flex;justify-content:center;padding:40px 20px;background:#100c17;min-height:100vh">
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ true }}" width="{{ 392 }}" height="{{ 812 }}" hint-size="392px,812px">
+<div style="position:relative;height:100%;overflow:hidden;background:#0d0912;color:#f5eee6;font-family:Inter,system-ui,sans-serif;display:flex;flex-direction:column">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 20% 8%,rgba(124,77,196,.28),transparent 62%),radial-gradient(ellipse 70% 50% at 88% 92%,rgba(202,164,106,.12),transparent 60%),radial-gradient(ellipse 120% 100% at 50% 50%,#150f20,#0d0912 72%)"></div>
+  <div style="position:absolute;width:340px;height:340px;left:-120px;top:-90px;border-radius:50%;filter:blur(60px);background:radial-gradient(circle,rgba(124,77,196,.34),transparent 65%);animation:bt-mist 26s ease-in-out infinite alternate;pointer-events:none"></div>
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+    <span style="position:absolute;bottom:-4%;left:14%;width:3px;height:3px;border-radius:50%;background:#caa46a;box-shadow:0 0 8px 1px rgba(202,164,106,.9);animation:bt-ember 15s linear infinite"></span>
+    <span style="position:absolute;bottom:-4%;left:44%;width:2px;height:2px;border-radius:50%;background:#caa46a;box-shadow:0 0 8px 1px rgba(202,164,106,.8);animation:bt-ember 19s linear 4s infinite"></span>
+    <span style="position:absolute;bottom:-4%;left:72%;width:3px;height:3px;border-radius:50%;background:#caa46a;box-shadow:0 0 8px 1px rgba(202,164,106,.9);animation:bt-ember 17s linear 8s infinite"></span>
+    <span style="position:absolute;bottom:-4%;left:90%;width:2px;height:2px;border-radius:50%;background:#caa46a;box-shadow:0 0 8px 1px rgba(202,164,106,.8);animation:bt-ember 22s linear 2s infinite"></span>
+  </div>
+
+  <div class="bt-scroll" style="position:relative;flex:1;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ aHome }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:14px 0 18px;animation:bt-in .5s cubic-bezier(.22,.9,.3,1) both">
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 18px 16px">
+      <div style="flex:1;min-width:0;position:relative;display:flex;padding:4px;border-radius:999px;background:rgba(0,0,0,.42);border:1px solid rgba(157,107,240,.22)">
+        <div style="transform:{{ aSrcShift }};position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:linear-gradient(135deg,#b48af0,#6425b0);box-shadow:0 6px 20px rgba(124,77,196,.5);transition:transform .45s cubic-bezier(.34,1.4,.5,1)"></div>
+        <sc-for list="{{ aSrc }}" as="s" hint-placeholder-count="2">
+          <button style="color:{{ s.color }};position:relative;flex:1;padding:9px 0;border:0;background:none;font:600 11.5px/1 Inter,sans-serif;letter-spacing:.1em;cursor:pointer;transition:color .3s" onClick="{{ s.onClick }}">{{ s.label }}</button>
+        </sc-for>
+      </div>
+        <button style="flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(202,164,106,.4);background:rgba(255,255,255,.05);color:#caa46a;font-size:15px;font-weight:700;cursor:pointer" title="Tutorial ansehen">?</button>
+      </div>
+
+      <div class="bt-scroll" style="display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 18px 4px;margin-bottom:6px">
+        <sc-for list="{{ heroes }}" as="h" hint-placeholder-count="3">
+          <div style="background:{{ h.bg }};position:relative;flex:none;width:255px;height:340px;border-radius:26px;overflow:hidden;scroll-snap-align:center;border:1px solid rgba(202,164,106,.24);box-shadow:0 22px 44px -18px rgba(0,0,0,.9);cursor:pointer">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Cinzel,serif;font-size:110px;color:rgba(255,255,255,.13)">{{ h.init }}</div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(8,5,12,.55) 66%,rgba(8,5,12,.96))"></div>
+            <div style="position:absolute;top:12px;left:12px;padding:3px 10px;border-radius:999px;font:700 9.5px/1.6 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(135deg,#caa46a,#f2dfae,#caa46a);background-size:200% auto;color:#241a02;animation:bt-shimmer 3.5s linear infinite">{{ h.badge }}</div>
+            <div style="position:absolute;left:0;right:0;bottom:0;padding:16px">
+              <div style="font-family:Cinzel,serif;font-size:21px;font-weight:600;line-height:1.15">{{ h.name }}</div>
+              <div style="font-size:11.5px;color:#cdbede;margin-top:3px">{{ h.sub }}</div>
+              <div style="display:flex;gap:6px;margin-top:10px">
+                <sc-for list="{{ h.tags }}" as="t" hint-placeholder-count="2">
+                  <span style="padding:3px 9px;border-radius:999px;font-size:9.5px;font-weight:600;background:rgba(157,107,240,.24);border:1px solid rgba(157,107,240,.36);color:#d9c7ff">{{ t }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;gap:10px;padding:10px 18px 14px">
+        <div style="flex:1;display:flex;align-items:center;gap:9px;padding:11px 15px;border-radius:999px;background:rgba(0,0,0,.45);border:1px solid rgba(202,164,106,.18)">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8f7fa3" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <span style="font-size:13px;color:#8f7fa3">Charaktere suchen …</span>
+        </div>
+        <button style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(157,107,240,.35);background:rgba(255,255,255,.05);color:#f5eee6;display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"></path></svg>
+        </button>
+      </div>
+
+      <div style="margin:6px 18px 0;padding:14px 16px;border-radius:18px;border:1px dashed rgba(202,164,106,.3);color:#8f7fa3;font-size:11.5px;line-height:1.6">Alles unterhalb der Suche (Reihen, Grid, Filter) bleibt wie in der bestehenden App — nicht Teil dieses Handoffs.</div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ aCreate }}" hint-placeholder-val="{{ true }}">
+    <div style="animation:bt-in .5s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column;height:100%">
+      <div style="padding:16px 18px 12px">
+        <div style="display:flex;align-items:flex-end;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#caa46a">Schritt {{ aStepNo }} von 5</div>
+            <div style="font-family:Cinzel,serif;font-size:22px;font-weight:600;margin-top:2px">{{ aStepTitle }}</div>
+          </div>
+          <button style="width:40px;height:40px;border-radius:14px;border:0;background:linear-gradient(135deg,#caa46a,#f2dfae,#caa46a);background-size:200% auto;animation:bt-shimmer 4s linear infinite;font-size:17px;cursor:pointer">🪄</button>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:14px">
+          <sc-for list="{{ aSteps }}" as="s" hint-placeholder-count="5">
+            <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden;cursor:pointer" onClick="{{ s.onClick }}">
+              <div style="transform:{{ s.fill }};height:100%;border-radius:4px;background:linear-gradient(90deg,#9d6bf0,#caa46a);transition:transform .5s cubic-bezier(.22,.9,.3,1);transform-origin:left"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow:hidden;position:relative">
+        <div style="transform:{{ aTrack }};display:flex;width:500%;height:100%;transition:transform .55s cubic-bezier(.3,1.05,.4,1)">
+
+          <div class="bt-scroll" style="width:20%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:14px">
+              <div style="position:relative;width:186px;height:186px;border-radius:38px;background:linear-gradient(150deg,rgba(124,77,196,.35),rgba(20,13,28,.9));border:2px dashed rgba(202,164,106,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;animation:bt-breathe 4.5s ease-in-out infinite">
+                <div style="font-size:34px;color:#caa46a">＋</div>
+                <div style="font-size:11.5px;color:#cdbede">Bild wählen</div>
+              </div>
+              <div style="text-align:center;font-size:12.5px;color:#8f7fa3;line-height:1.6;max-width:270px">Zieh ein Bild herein — oder lass die KI eins malen. Du kannst das später jederzeit ändern.</div>
+              <button style="padding:12px 22px;border-radius:999px;border:1px solid rgba(202,164,106,.5);background:rgba(202,164,106,.1);color:#e6cf96;font:600 12.5px Inter,sans-serif;cursor:pointer">🎨 Bild erstellen lassen · 0,05 $</button>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:20%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ aPersonFields }}" as="f" hint-placeholder-count="3">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3">{{ f.label }}</span>
+                  <input placeholder="{{ f.ph }}" style="padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.45);border:1px solid rgba(202,164,106,.18);color:#f5eee6;font:400 15px Inter,sans-serif;outline:none">
+                </label>
+              </sc-for>
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:8px">Geschlecht</div>
+                <div style="display:flex;gap:8px">
+                  <sc-for list="{{ aGender }}" as="g" hint-placeholder-count="3">
+                    <button style="background:{{ g.bg }};color:{{ g.color }};border:{{ g.border }};flex:1;padding:11px 0;border-radius:14px;font:600 12.5px Inter,sans-serif;cursor:pointer;transition:all .28s" onClick="{{ g.onClick }}">{{ g.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:8px">Geeignet für User-Sicht</div>
+                <div style="display:flex;gap:8px">
+                  <sc-for list="{{ aView }}" as="g" hint-placeholder-count="3">
+                    <button style="background:{{ g.bg }};color:{{ g.color }};border:{{ g.border }};flex:1;padding:11px 0;border-radius:14px;font:600 12.5px Inter,sans-serif;cursor:pointer;transition:all .28s" onClick="{{ g.onClick }}">{{ g.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="font-size:10.5px;color:#8f7fa3;margin-top:8px;line-height:1.5">Aus welcher Sicht ist dieser Charakter am besten geeignet? Wird auf der Startseite angezeigt.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:20%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ aStoryFields }}" as="f" hint-placeholder-count="3">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3">{{ f.label }}</span>
+                  <textarea rows="{{ f.rows }}" placeholder="{{ f.ph }}" style="padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.45);border:1px solid rgba(202,164,106,.18);color:#f5eee6;font:400 14px/1.55 Inter,sans-serif;outline:none;resize:none"></textarea>
+                  <span style="font-size:10.5px;color:#8f7fa3;line-height:1.5">{{ f.hint }}</span>
+                </label>
+              </sc-for>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:20%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:9px">Charakter-Typ</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ aMoodChips }}" as="m" hint-placeholder-count="8">
+                    <button style="background:{{ m.bg }};color:{{ m.color }};border:{{ m.border }};transform:{{ m.scale }};padding:8px 14px;border-radius:999px;font:500 12px Inter,sans-serif;cursor:pointer;transition:all .25s cubic-bezier(.34,1.4,.5,1)" onClick="{{ m.onClick }}">{{ m.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:9px">Genre <span style="color:#caa46a">· mind. 1</span></div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ aGenreChips }}" as="m" hint-placeholder-count="7">
+                    <button style="background:{{ m.bg }};color:{{ m.color }};border:{{ m.border }};transform:{{ m.scale }};padding:8px 14px;border-radius:999px;font:500 12px Inter,sans-serif;cursor:pointer;transition:all .25s cubic-bezier(.34,1.4,.5,1)" onClick="{{ m.onClick }}">{{ m.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-for list="{{ aToggles }}" as="t" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(157,107,240,.18);cursor:pointer" onClick="{{ t.onClick }}">
+                  <div style="flex:1">
+                    <div style="font-size:13.5px;font-weight:600">{{ t.label }}</div>
+                    <div style="font-size:10.5px;color:#8f7fa3;margin-top:2px">{{ t.hint }}</div>
+                  </div>
+                  <div style="background:{{ t.trackBg }};width:48px;height:27px;border-radius:20px;position:relative;transition:background .3s;flex:none">
+                    <div style="left:{{ t.knob }};position:absolute;top:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:left .28s cubic-bezier(.34,1.56,.64,1)"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:20%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;min-height:100%">
+              <div style="font-size:12.5px;color:#8f7fa3;text-align:center;max-width:260px">So sieht deine Figur auf der Startseite aus:</div>
+              <div style="position:relative;width:100%;max-width:255px;aspect-ratio:.745;border-radius:28px;overflow:hidden;border:1px solid rgba(202,164,106,.35);background:linear-gradient(150deg,#3a1d63,#150c22);box-shadow:0 24px 50px -18px rgba(0,0,0,.9);animation:bt-in .6s cubic-bezier(.22,.9,.3,1) both">
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Cinzel,serif;font-size:118px;color:rgba(255,255,255,.14)">{{ aPrevInit }}</div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,5,12,.95))"></div>
+                <div style="position:absolute;left:0;right:0;bottom:0;padding:16px">
+                  <div style="font-family:Cinzel,serif;font-size:21px;font-weight:600">{{ aPrevName }}</div>
+                  <div style="font-size:11.5px;color:#cdbede;margin-top:3px">{{ aPrevSub }}</div>
+                </div>
+              </div>
+              <div style="font-size:11px;color:#caa46a">✓ Automatisch zwischengespeichert</div>
+              <button style="width:100%;padding:13px;border-radius:18px;border:1px solid rgba(239,77,99,.4);background:rgba(239,77,99,.12);color:#ef4d63;font:600 13px Inter,sans-serif;cursor:pointer">Charakter löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;padding:12px 18px 6px">
+        <button style="opacity:{{ aBackOpacity }};padding:14px 20px;border-radius:18px;border:1px solid rgba(157,107,240,.3);background:rgba(255,255,255,.04);color:#cdbede;font:600 13px Inter,sans-serif;cursor:pointer" onClick="{{ aPrev }}">‹ Zurück</button>
+        <button style="flex:1;padding:14px;border-radius:18px;border:0;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font:700 13.5px Inter,sans-serif;box-shadow:0 10px 26px rgba(124,77,196,.45);cursor:pointer" onClick="{{ aNext }}">{{ aNextLabel }}</button>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ aIdent }}" hint-placeholder-val="{{ true }}">
+    <div style="animation:bt-in .5s cubic-bezier(.22,.9,.3,1) both;display:flex;flex-direction:column;height:100%">
+      <div style="padding:16px 18px 12px">
+        <div style="display:flex;align-items:flex-end;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#caa46a">Schritt {{ aIStepNo }} von 3 · privat</div>
+            <div style="font-family:Cinzel,serif;font-size:22px;font-weight:600;margin-top:2px">{{ aIStepTitle }}</div>
+          </div>
+          <button style="width:40px;height:40px;border-radius:14px;border:0;background:linear-gradient(135deg,#caa46a,#f2dfae,#caa46a);background-size:200% auto;animation:bt-shimmer 4s linear infinite;font-size:17px;cursor:pointer">🪄</button>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:14px">
+          <sc-for list="{{ aISteps }}" as="s" hint-placeholder-count="3">
+            <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden;cursor:pointer" onClick="{{ s.onClick }}">
+              <div style="transform:{{ s.fill }};height:100%;border-radius:4px;background:linear-gradient(90deg,#9d6bf0,#caa46a);transition:transform .5s cubic-bezier(.22,.9,.3,1);transform-origin:left"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow:hidden;position:relative">
+        <div style="transform:{{ aITrack }};display:flex;width:300%;height:100%;transition:transform .55s cubic-bezier(.3,1.05,.4,1)">
+
+          <div class="bt-scroll" style="width:33.3333%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:10px">
+              <div style="position:relative;width:170px;height:170px;border-radius:50%;background:linear-gradient(150deg,rgba(124,77,196,.35),rgba(20,13,28,.9));border:2px dashed rgba(202,164,106,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;animation:bt-breathe 4.5s ease-in-out infinite">
+                <div style="font-size:32px;color:#caa46a">＋</div>
+                <div style="font-size:11.5px;color:#cdbede">Dein Gesicht</div>
+              </div>
+              <div style="text-align:center;font-size:12.5px;color:#8f7fa3;line-height:1.6;max-width:265px">Identitäten sind <b style="color:#cdbede">privat</b>. Nur du siehst sie — die KI nutzt sie, um dich richtig anzusprechen.</div>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:33.3333%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ aPersonFields }}" as="f" hint-placeholder-count="3">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3">{{ f.label }}</span>
+                  <input placeholder="{{ f.ph }}" style="padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.45);border:1px solid rgba(202,164,106,.18);color:#f5eee6;font:400 15px Inter,sans-serif;outline:none">
+                </label>
+              </sc-for>
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:8px">Geschlecht</div>
+                <div style="display:flex;gap:8px">
+                  <sc-for list="{{ aIGender }}" as="g" hint-placeholder-count="3">
+                    <button style="background:{{ g.bg }};color:{{ g.color }};border:{{ g.border }};flex:1;padding:11px 0;border-radius:14px;font:600 12.5px Inter,sans-serif;cursor:pointer;transition:all .28s" onClick="{{ g.onClick }}">{{ g.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bt-scroll" style="width:33.3333%;height:100%;overflow-y:auto;padding:8px 18px 24px">
+            <div style="display:flex;flex-direction:column;gap:14px;min-height:100%">
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3">Beschreibe deine Figur</span>
+                <textarea rows="7" placeholder="Ihr Wesen, ihre Geschichte, ihre Vergangenheit …" style="padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.45);border:1px solid rgba(202,164,106,.18);color:#f5eee6;font:400 14px/1.55 Inter,sans-serif;outline:none;resize:none"></textarea>
+              </label>
+              <div>
+                <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#8f7fa3;margin-bottom:9px">Charakter-Typ</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ aIMoodChips }}" as="m" hint-placeholder-count="8">
+                    <button style="background:{{ m.bg }};color:{{ m.color }};border:{{ m.border }};transform:{{ m.scale }};padding:8px 14px;border-radius:999px;font:500 12px Inter,sans-serif;cursor:pointer;transition:all .25s cubic-bezier(.34,1.4,.5,1)" onClick="{{ m.onClick }}">{{ m.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="font-size:10.5px;color:#8f7fa3;line-height:1.5">Alle Felder optional — mindestens eines muss ausgefüllt sein.</div>
+              <button style="width:100%;padding:13px;border-radius:18px;border:1px solid rgba(239,77,99,.4);background:rgba(239,77,99,.12);color:#ef4d63;font:600 13px Inter,sans-serif;cursor:pointer">Identität löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;padding:12px 18px 6px">
+        <button style="opacity:{{ aIBackOpacity }};padding:14px 20px;border-radius:18px;border:1px solid rgba(157,107,240,.3);background:rgba(255,255,255,.04);color:#cdbede;font:600 13px Inter,sans-serif;cursor:pointer" onClick="{{ aIPrev }}">‹ Zurück</button>
+        <button style="flex:1;padding:14px;border-radius:18px;border:0;background:linear-gradient(135deg,#b48af0,#6425b0);color:#fff;font:700 13.5px Inter,sans-serif;box-shadow:0 10px 26px rgba(124,77,196,.45);cursor:pointer" onClick="{{ aINext }}">{{ aINextLabel }}</button>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ aOther }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:60px 24px;text-align:center;color:#8f7fa3;font-size:13px;line-height:1.7">Nicht Teil dieses Handoffs — bleibt unverändert.</div>
+    </sc-if>
+
+  </div>
+
+  <div style="position:relative;flex:none;padding:0 12px 12px;display:flex;justify-content:center">
+    <nav style="display:flex;width:min(100%,460px);height:74px;padding:6px;border-radius:26px;background:rgba(15,10,23,.92);border:1px solid rgba(202,164,106,.16);box-shadow:0 20px 46px -14px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05)">
+      <sc-for list="{{ aNav }}" as="n" hint-placeholder-count="5">
+        <button style="color:{{ n.color }};font-weight:{{ n.weight }};flex:1;position:relative;background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:9.6px;font-family:Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;border-radius:20px;cursor:pointer;transition:color .3s" onClick="{{ n.onClick }}">
+          <div style="opacity:{{ n.glow }};position:absolute;inset:0;border-radius:20px;background:radial-gradient(120% 120% at 50% 120%,rgba(157,107,240,.24),transparent 70%);transition:opacity .35s"></div>
+          <svg viewBox="0 0 24 24" width="{{ n.size }}" height="{{ n.size }}" fill="none" stroke="currentColor" stroke-width="2" style="{{ n.svgStyle }}"><path d="{{ n.d }}"></path></svg>
+          <span style="position:relative">{{ n.label }}</span>
+        </button>
+      </sc-for>
+    </nav>
+  </div>
+</div>
+</x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const MOODS = ['Mysteriös','Dominant','Sanft','Verspielt','Beschützend','Leidenschaftlich','Kühl','Loyal'];
+const GENRES = ['Dark Romance','Fantasy','Historisch','Sci-Fi','Krimi','Horror','Slice of Life'];
+const GRADS = [
+  'linear-gradient(150deg,#4a2478,#170d26)',
+  'linear-gradient(150deg,#6b2340,#1c0c16)',
+  'linear-gradient(150deg,#2c3a72,#0f1226)',
+  'linear-gradient(150deg,#5c3d1c,#1d1409)',
+  'linear-gradient(150deg,#28553f,#0c1c15)',
+  'linear-gradient(150deg,#5a2a5f,#1a0c1d)'
+];
+const HEROES = [
+  { name:'Thorne Vayle', sub:'Vampir · 312 Jahre · Männliche Sicht', init:'T', badge:'Vorgeschlagen', tags:['Dark Romance','Dominant'], bg:GRADS[0] },
+  { name:'Elyra Nachtblüte', sub:'Elfe · 204 Jahre · Neutral', init:'E', badge:'Vorgeschlagen', tags:['Fantasy','Mysteriös'], bg:GRADS[1] },
+  { name:'Kassian Morgenstern', sub:'Kopfgeldjäger · 34 Jahre', init:'K', badge:'Vorgeschlagen', tags:['Sci-Fi','Kühl'], bg:GRADS[2] }
+];
+const IDENTS = [
+  { name:'Aria', init:'A', bg:GRADS[1] },
+  { name:'Kai Renner', init:'K', bg:GRADS[2] },
+  { name:'Nachtschwester', init:'N', bg:GRADS[5] }
+];
+const NAV = [
+  { key:'home', label:'Start', d:'M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z' },
+  { key:'chats', label:'Chats', d:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z' },
+  { key:'create', label:'Erstellen', d:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 8v8M8 12h8' },
+  { key:'identities', label:'Identitäten', d:'M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8M4 21v-1a8 8 0 0 1 16 0v1' },
+  { key:'profile', label:'Profil', d:'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6M6.5 20a6 6 0 0 1 11 0' }
+];
+const STEPS = ['Ein Gesicht','Wer ist das?','Die Geschichte','Stimmung & Genre','Fertig'];
+const ISTEPS = ['Dein Gesicht','Wer bist du?','Dein Wesen'];
+
+class Component extends DCLogic {
+  state = {
+    tab:'home', src:0, step:0, istep:0,
+    gender:'', view:'Neutral', igender:'',
+    moods:{}, genres:{'Dark Romance':true}, imoods:{},
+    tPublic:true, tNsfw:false
+  };
+
+  set(k, v) { this.setState({ [k]: v }); }
+  toggleIn(bag, key) {
+    this.setState(s => {
+      const next = Object.assign({}, s[bag]);
+      if (next[key]) { delete next[key]; } else { next[key] = true; }
+      return { [bag]: next };
+    });
+  }
+  chip(on) {
+    return on
+      ? { bg:'linear-gradient(135deg,#b48af0,#6425b0)', color:'#fff', border:'1px solid transparent', scale:'scale(1.04)' }
+      : { bg:'rgba(255,255,255,.045)', color:'#cdbede', border:'1px solid rgba(157,107,240,.26)', scale:'none' };
+  }
+  seg(on) {
+    return on
+      ? { bg:'linear-gradient(135deg,#b48af0,#6425b0)', color:'#fff', border:'1px solid transparent' }
+      : { bg:'rgba(255,255,255,.045)', color:'#8f7fa3', border:'1px solid rgba(157,107,240,.2)' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const choice = (list, cur, key) => list.map(l => Object.assign(
+      { label:l, onClick: () => this.set(key, l) }, this.seg(cur === l)
+    ));
+    return {
+      aHome: s.tab === 'home', aCreate: s.tab === 'create', aIdent: s.tab === 'identities',
+      aOther: s.tab === 'chats' || s.tab === 'profile',
+      aNav: NAV.map(n => {
+        const on = s.tab === n.key;
+        const isCreate = n.key === 'create';
+        return {
+          label:n.label, d:n.d,
+          size: isCreate ? 30 : 22,
+          color: isCreate ? '#caa46a' : (on ? '#9d6bf0' : '#8f7fa3'),
+          weight: isCreate ? 600 : 700,
+          glow: on && !isCreate ? 1 : 0,
+          svgStyle: isCreate
+            ? 'width:30px;height:30px;margin-top:-18px;background:linear-gradient(135deg,#caa46a 0%,#f2dfae 50%,#caa46a 100%);color:#1a1526;border-radius:50%;padding:9px;box-sizing:content-box;box-shadow:' + (on ? '0 6px 22px rgba(202,164,106,.8)' : '0 6px 18px rgba(202,164,106,.5)') + ',0 0 0 4px #0d0912;transition:box-shadow .3s;'
+            : 'transition:transform .3s cubic-bezier(.34,1.56,.64,1),filter .3s;transform:' + (on ? 'translateY(-2px)' : 'none') + ';filter:' + (on ? 'drop-shadow(0 4px 10px rgba(157,107,240,.7))' : 'none') + ';',
+          onClick: () => this.set('tab', n.key)
+        };
+      }),
+      heroes: HEROES,
+      aSrc: ['BEYOND TELLING','TIPSY'].map((l, i) => ({
+        label:l, color: s.src === i ? '#fff' : '#8f7fa3', onClick: () => this.set('src', i)
+      })),
+      aSrcShift: 'translateX(' + (s.src * 100) + '%)',
+
+      aStepNo: s.step + 1,
+      aStepTitle: STEPS[s.step],
+      aSteps: STEPS.map((_, i) => ({
+        fill: 'scaleX(' + (i <= s.step ? 1 : 0) + ')',
+        onClick: () => this.set('step', i)
+      })),
+      aTrack: 'translateX(-' + (s.step * 20) + '%)',
+      aNextLabel: s.step === 4 ? 'Speichern & ansehen' : 'Weiter ›',
+      aBackOpacity: s.step === 0 ? .35 : 1,
+      aNext: () => this.set('step', Math.min(4, s.step + 1)),
+      aPrev: () => this.set('step', Math.max(0, s.step - 1)),
+
+      aPersonFields: [
+        { label:'Vorname *', ph:'Thorne' },
+        { label:'Nachname', ph:'Vayle' },
+        { label:'Alter', ph:'312' }
+      ],
+      aStoryFields: [
+        { label:'Vorschau Text', rows:3, ph:'Was sieht man von ihm, bevor man ihn kennt?', hint:'max. 750 Zeichen · erscheint auf der Karte' },
+        { label:'Charakter Beschreibung', rows:4, ph:'Wesen, Vergangenheit, Geheimnisse …', hint:'Geht bei jeder Nachricht an die KI' },
+        { label:'Story Anfang *', rows:4, ph:'*Thorne lehnt an der Bar und blickt dir entgegen.* Na, auch hier gestrandet?', hint:'Erste Nachricht im Chat · Gedanken *in Sternchen*' }
+      ],
+      aGender: choice(['weiblich','männlich','divers'], s.gender, 'gender'),
+      aView: choice(['Männlich','Weiblich','Neutral'], s.view, 'view'),
+      aIGender: choice(['weiblich','männlich','divers'], s.igender, 'igender'),
+      aMoodChips: MOODS.map(m => Object.assign(
+        { label:m, onClick: () => this.toggleIn('moods', m) }, this.chip(!!s.moods[m])
+      )),
+      aGenreChips: GENRES.map(g => Object.assign(
+        { label:g, onClick: () => this.toggleIn('genres', g) }, this.chip(!!s.genres[g])
+      )),
+      aIMoodChips: MOODS.map(m => Object.assign(
+        { label:m, onClick: () => this.toggleIn('imoods', m) }, this.chip(!!s.imoods[m])
+      )),
+      aToggles: [
+        { label:'Öffentlich teilen', hint:'Erscheint auf der Startseite aller Nutzer',
+          trackBg: s.tPublic ? 'linear-gradient(135deg,#b48af0,#6425b0)' : 'rgba(255,255,255,.12)',
+          knob: s.tPublic ? '24px' : '3px', onClick: () => this.set('tPublic', !s.tPublic) },
+        { label:'NSFW Charakter?', hint:'Nur sichtbar, wenn der NSFW-Filter aktiv ist',
+          trackBg: s.tNsfw ? 'linear-gradient(135deg,#ef4d63,#7a1424)' : 'rgba(255,255,255,.12)',
+          knob: s.tNsfw ? '24px' : '3px', onClick: () => this.set('tNsfw', !s.tNsfw) }
+      ],
+      aPrevInit:'T', aPrevName:'Thorne Vayle',
+      aPrevSub: Object.keys(s.genres).concat(Object.keys(s.moods)).slice(0, 3).join(' · ') || 'Noch keine Tags',
+
+      aIStepNo: s.istep + 1,
+      aIStepTitle: ISTEPS[s.istep],
+      aISteps: ISTEPS.map((_, i) => ({
+        fill: 'scaleX(' + (i <= s.istep ? 1 : 0) + ')',
+        onClick: () => this.set('istep', i)
+      })),
+      aITrack: 'translateX(-' + (s.istep * 33.3333) + '%)',
+      aINextLabel: s.istep === 2 ? 'Identität speichern' : 'Weiter ›',
+      aIBackOpacity: s.istep === 0 ? .35 : 1,
+      aINext: () => this.set('istep', Math.min(2, s.istep + 1)),
+      aIPrev: () => this.set('istep', Math.max(0, s.istep - 1))
+    };
+  }
+}
+</script>
+</body>
+</html>
